@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ujian Digital – PKBM Sekolah Islam Abu Bakar</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #1a5c38;
+  --green-mid: #236b43;
+  --green-light: #3a8f60;
+  --green-pale: #d9efe3;
+  --gold: #b8860b;
+  --gold-light: #d4af37;
+  --white: #ffffff;
+  --bg: #f4f4f0;
+  --gray: #888;
+  --text: #1a1a1a;
+  --red: #b52828;
+  --red-pale: #fdf0ef;
+  --blue: #1a5fa8;
+  --blue-pale: #eaf2fb;
+  --shadow: 0 2px 12px rgba(0,0,0,0.10);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ── STICKY NAV BAR ── */
+.site-navbar {
+  background: var(--green);
+  padding: 0;
+  position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+.site-navbar-inner {
+  max-width: 860px; margin: 0 auto;
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 18px;
+}
+.site-navbar img.nav-logo {
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 2px solid var(--gold-light);
+}
+.nav-logo-svg {
+  width: 38px; height: 38px; flex-shrink: 0;
+}
+.nav-title { color: #fff; font-size: 13px; font-weight: 800; line-height: 1.2; }
+.nav-sub { color: #afd9bf; font-size: 10px; font-weight: 600; }
+.nav-gold-bar { height: 3px; background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold)); }
+
+/* ── PAGE WRAP ── */
+.pw { max-width: 860px; margin: 0 auto; padding: 24px 18px 60px; }
+
+/* ── SCREEN 1: SUBJECT MENU ── */
+.menu-hero { text-align: center; padding: 24px 0 16px; }
+.menu-hero h2 { font-size: 22px; font-weight: 900; color: var(--green); }
+.menu-hero p { font-size: 13px; color: var(--gray); margin-top: 4px; }
+.subject-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 12px; margin-top: 20px; }
+.subject-card {
+  background: var(--white); border: 2px solid var(--green-pale);
+  border-radius: 12px; padding: 18px 14px; text-align: center;
+  cursor: pointer; transition: all .17s; box-shadow: var(--shadow);
+  position: relative; overflow: hidden;
+}
+.subject-card::before { content:''; position:absolute; top:0;left:0;right:0; height:4px; background: linear-gradient(90deg,var(--green),var(--green-light)); }
+.subject-card:hover:not(.disabled) { border-color: var(--green-light); transform: translateY(-3px); box-shadow: 0 7px 24px rgba(26,92,56,.15); }
+.subject-card.disabled { opacity: .4; cursor: not-allowed; }
+.subject-card .s-icon { font-size: 30px; margin-bottom: 7px; }
+.subject-card .s-name { font-size: 13px; font-weight: 800; color: var(--green); }
+.subject-card .s-tag { display: inline-block; margin-top: 5px; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; background: var(--green-pale); color: var(--green-mid); }
+.subject-card.disabled .s-tag { background:#eee; color:#aaa; }
+
+/* ── SCREEN 2: EXAM SELECT ── */
+.page-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+.back-btn { background: none; border: 2px solid var(--green-pale); border-radius: 8px; padding: 6px 14px; font-size: 13px; font-weight: 700; color: var(--green); cursor: pointer; transition: .15s; font-family: 'Nunito',sans-serif; }
+.back-btn:hover { background: var(--green-pale); }
+.page-header h2 { font-size: 19px; font-weight: 900; color: var(--green); }
+.page-header p { font-size: 12px; color: var(--gray); }
+
+.exam-option-card {
+  background: var(--white); border: 2px solid var(--green-pale); border-radius: 12px;
+  padding: 18px 20px; cursor: pointer; transition: .17s; box-shadow: var(--shadow);
+  display: flex; align-items: center; gap: 16px; margin-bottom: 12px;
+}
+.exam-option-card:hover { border-color: var(--green-light); transform: translateX(4px); }
+.exam-num { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg,var(--green),var(--green-light)); color:#fff; font-size: 19px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.exam-option-info strong { font-size: 14px; font-weight: 800; color: var(--green); display: block; }
+.exam-option-info span { font-size: 12px; color: var(--gray); }
+.exam-arrow { font-size: 20px; color: var(--green-light); margin-left: auto; }
+
+.name-box { background: var(--white); border: 2px solid var(--green-pale); border-radius: 12px; padding: 22px; margin-top: 20px; box-shadow: var(--shadow); }
+.name-box label { font-size: 13px; font-weight: 800; color: var(--green); display: block; margin-bottom: 8px; }
+.name-box input { width: 100%; padding: 10px 14px; border: 2px solid var(--green-pale); border-radius: 8px; font-family: 'Nunito',sans-serif; font-size: 15px; font-weight: 600; color: var(--text); outline: none; transition: .15s; }
+.name-box input:focus { border-color: var(--green-light); }
+.name-err { color: var(--red); font-size: 12px; font-weight: 700; margin-top: 6px; display: none; }
+
+/* ── SCREEN 3: EXAM ── */
+/* Soal header mirip PDF asli */
+.soal-letterhead {
+  background: var(--white);
+  border: 1.5px solid #ccc;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.lh-header {
+  background: var(--green);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.lh-logo {
+  width: 58px; height: 58px;
+  background: #fff;
+  border-radius: 50%;
+  border: 3px solid var(--gold-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+}
+.lh-title-block { flex: 1; text-align: center; }
+.lh-title-block .lh-label { font-size: 11px; font-weight: 700; color: #afd9bf; letter-spacing: 1px; text-transform: uppercase; }
+.lh-title-block .lh-school { font-size: 18px; font-weight: 900; color: #fff; line-height: 1.2; }
+.lh-title-block .lh-year { font-size: 11px; color: #afd9bf; font-weight: 600; }
+.lh-gold-strip { height: 3px; background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold)); }
+.lh-meta {
+  padding: 12px 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 20px;
+}
+.lh-meta-left {}
+.lh-meta-row { font-size: 13px; line-height: 1.7; }
+.lh-meta-row span.lbl { font-weight: 700; display: inline-block; width: 110px; }
+.lh-meta-right {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.lh-name-row { display: flex; align-items: baseline; gap: 6px; font-size: 13px; font-weight: 700; }
+.lh-name-input {
+  border: none; border-bottom: 2px solid var(--green-light);
+  background: transparent; font-family: 'Nunito',sans-serif; font-size: 14px; font-weight: 700;
+  color: var(--green); outline: none; padding: 2px 6px; flex: 1; min-width: 140px;
+}
+.lh-nilai-paraf {
+  border: 1.5px solid #ccc; border-radius: 4px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  font-size: 12px; font-weight: 700; text-align: center; overflow: hidden;
+}
+.lh-np-head { background: #f0f0f0; padding: 4px 8px; border-bottom: 1px solid #ccc; }
+.lh-np-body { padding: 16px 8px; }
+.lh-np-col { border-right: 1px solid #ccc; }
+.lh-np-col:last-child { border-right: none; }
+.lh-no-absen { text-align: right; font-size: 12px; font-weight: 700; }
+.lh-no-absen-box { border: 1.5px solid #ccc; display: inline-block; padding: 8px 14px; margin-top: 2px; border-radius: 4px; min-width: 60px; }
+.progress-wrap {
+  padding: 10px 20px 14px;
+  border-top: 1px solid #eee;
+  display: flex; align-items: center; gap: 10px;
+}
+.progress-label { font-size: 12px; font-weight: 700; color: var(--green); white-space: nowrap; }
+.progress-bar-bg { flex: 1; height: 8px; background: var(--green-pale); border-radius: 4px; }
+.progress-bar-fill { height: 100%; background: var(--green); border-radius: 4px; transition: width .4s; }
+.progress-count { font-size: 12px; font-weight: 800; color: var(--green); white-space: nowrap; }
+
+/* Section heading */
+.section-heading {
+  font-size: 14px; font-weight: 900; color: var(--green);
+  border-left: 4px solid var(--green-light); padding: 8px 12px;
+  background: var(--green-pale); border-radius: 0 8px 8px 0; margin: 22px 0 14px;
+}
+
+/* PG card */
+.q-card { background: var(--white); border: 1.5px solid #e4e9e4; border-radius: 10px; padding: 18px 20px; margin-bottom: 12px; box-shadow: 0 1px 6px rgba(0,0,0,.04); }
+.q-text { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.65; margin-bottom: 12px; }
+.q-badge { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--green); color: #fff; font-size: 11px; font-weight: 800; margin-right: 7px; vertical-align: middle; flex-shrink: 0; }
+.arabic { font-family: 'Amiri',serif; font-size: 22px; direction: rtl; text-align: right; display: block; margin: 5px 0; color: var(--green); }
+.opts { display: flex; flex-direction: column; gap: 7px; }
+.opt-lbl { display: flex; align-items: center; gap: 10px; padding: 9px 13px; border: 2px solid #e4e9e4; border-radius: 8px; cursor: pointer; transition: .14s; font-size: 13px; font-weight: 600; }
+.opt-lbl:hover { border-color: var(--green-light); background: var(--green-pale); }
+.opt-lbl input[type=radio] { display: none; }
+.opt-lbl.selected { border-color: var(--green-mid); background: var(--green-pale); }
+.opt-dot { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #bbb; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; transition: .14s; }
+.opt-lbl.selected .opt-dot { background: var(--green-mid); border-color: var(--green-mid); color: #fff; }
+
+/* Isian */
+.isian-wrap { background: var(--white); border: 1.5px solid #e4e9e4; border-radius: 10px; padding: 16px 20px; margin-bottom: 12px; box-shadow: 0 1px 6px rgba(0,0,0,.04); }
+.isian-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 13px; flex-wrap: wrap; }
+.isian-row:last-child { margin-bottom: 0; }
+.isian-num { font-size: 13px; font-weight: 800; color: var(--green-mid); width: 20px; text-align: right; flex-shrink: 0; }
+.isian-q { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.6; flex: 1; }
+.isian-input { border: none; border-bottom: 2px solid var(--green-light); background: transparent; font-family: 'Nunito',sans-serif; font-size: 13px; font-weight: 700; color: var(--green); outline: none; padding: 2px 5px; min-width: 110px; transition: .14s; }
+.isian-input:focus { border-color: var(--green); }
+
+/* Submit */
+.submit-area { text-align: center; margin-top: 28px; }
+.submit-btn { display: inline-block; padding: 13px 48px; background: linear-gradient(135deg,var(--gold) 0%,#e0a820 100%); color: var(--green); border: none; border-radius: 50px; font-family: 'Nunito',sans-serif; font-size: 15px; font-weight: 900; cursor: pointer; box-shadow: 0 4px 16px rgba(184,134,11,.35); transition: .17s; letter-spacing: .3px; }
+.submit-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(184,134,11,.5); }
+
+/* ── SCREEN 4: RESULT ── */
+.result-hero { text-align: center; padding: 24px 0 16px; }
+.score-ring { width: 130px; height: 130px; border-radius: 50%; margin: 0 auto 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 8px solid var(--green-light); background: var(--white); box-shadow: 0 0 0 4px var(--green-pale), var(--shadow); }
+.score-ring.ex { border-color: var(--gold-light); box-shadow: 0 0 0 4px #fdf3cc, var(--shadow); }
+.score-ring.ng { border-color: #e07b3a; box-shadow: 0 0 0 4px #fdf0e6, var(--shadow); }
+.score-num { font-size: 40px; font-weight: 900; color: var(--green); line-height: 1; }
+.score-lbl { font-size: 11px; color: var(--gray); font-weight: 700; }
+.result-name { font-size: 19px; font-weight: 900; color: var(--green); }
+.result-sub { font-size: 13px; color: var(--gray); margin-top: 3px; }
+.result-emj { font-size: 30px; margin-top: 7px; }
+.result-stats { display: flex; gap: 10px; justify-content: center; margin: 14px 0 22px; flex-wrap: wrap; }
+.stat-pill { background: var(--white); border-radius: 30px; padding: 7px 16px; font-size: 13px; font-weight: 700; box-shadow: var(--shadow); border: 1.5px solid #eee; }
+.stat-pill.c { color: var(--blue); border-color: #b8d8f0; }
+.stat-pill.w { color: var(--red); border-color: #f0bab8; }
+.stat-pill.t { color: var(--green); border-color: var(--green-pale); }
+
+.review-head { font-size: 14px; font-weight: 900; color: var(--red); margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
+.review-card { background: var(--red-pale); border: 1.5px solid #f0b8b4; border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; }
+.rc-q { font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.6; margin-bottom: 8px; }
+.rc-yours { font-size: 12px; color: var(--red); font-weight: 700; margin-bottom: 4px; }
+.rc-correct { font-size: 12px; color: var(--blue); font-weight: 700; background: var(--blue-pale); padding: 5px 10px; border-radius: 6px; }
+
+.perfect-msg { text-align: center; padding: 20px; background: var(--green-pale); border-radius: 12px; }
+.result-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 26px; }
+.act-btn { padding: 11px 26px; border-radius: 50px; font-family: 'Nunito',sans-serif; font-size: 13px; font-weight: 800; cursor: pointer; transition: .14s; border: 2px solid transparent; }
+.act-btn.p { background: linear-gradient(135deg,var(--green),var(--green-mid)); color: #fff; box-shadow: 0 4px 14px rgba(26,92,56,.25); }
+.act-btn.p:hover { transform: translateY(-2px); }
+.act-btn.s { background: var(--white); color: var(--green); border-color: var(--green-pale); box-shadow: var(--shadow); }
+.act-btn.s:hover { border-color: var(--green-light); background: var(--green-pale); }
+.act-btn.g { background: var(--white); color: var(--gold); border-color: #f0d890; box-shadow: var(--shadow); }
+.act-btn.g:hover { border-color: var(--gold-light); background: #fef8e8; }
+
+@keyframes popIn { 0%{transform:scale(.5);opacity:0} 70%{transform:scale(1.08)} 100%{transform:scale(1);opacity:1} }
+.pop { animation: popIn .45s ease forwards; }
+@media(max-width:480px){
+  .subject-grid { grid-template-columns: repeat(2,1fr); }
+  .lh-meta { grid-template-columns: 1fr; }
+  .lh-header { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="site-navbar">
+  <div class="site-navbar-inner">
+    <svg class="nav-logo-svg" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="30" cy="30" r="28" fill="white" stroke="#d4af37" stroke-width="2.5"/>
+      <circle cx="30" cy="30" r="24" fill="none" stroke="#1a5c38" stroke-width="1.5"/>
+      <text x="30" y="20" text-anchor="middle" font-size="8" fill="#1a5c38" font-weight="bold" font-family="serif">PKBM</text>
+      <text x="30" y="36" text-anchor="middle" font-size="16" fill="#1a5c38" font-family="serif">🕌</text>
+      <text x="30" y="50" text-anchor="middle" font-size="6.5" fill="#1a5c38" font-weight="bold" font-family="serif">ABU BAKAR</text>
+    </svg>
+    <div>
+      <div class="nav-title">PKBM SEKOLAH ISLAM ABU BAKAR</div>
+      <div class="nav-sub">Ujian Digital · Tahun Pelajaran 2025/2026</div>
+    </div>
+  </div>
+  <div class="nav-gold-bar"></div>
+</header>
+
+<!-- ══ SCREEN 1: MAIN MENU ══ -->
+<div id="s-main" class="screen active">
+  <div class="pw">
+    <div class="menu-hero">
+      <div style="font-size:48px;margin-bottom:8px;">📚</div>
+      <h2>Pilih Mata Pelajaran</h2>
+      <p>Klik pelajaran yang ingin kamu ujikan hari ini</p>
+    </div>
+    <div class="subject-grid">
+      <div class="subject-card" onclick="openSubject('adab')">
+        <div class="s-icon">🌿</div>
+        <div class="s-name">Adab</div>
+        <div class="s-tag">2 Ujian</div>
+      </div>
+      <div class="subject-card" onclick="openSubject('akhlak')">
+        <div class="s-icon">⭐</div>
+        <div class="s-name">Akhlak Islami</div>
+        <div class="s-tag">3 Ujian</div>
+      </div>
+      <div class="subject-card" onclick="openSubject('arab')">
+        <div class="s-icon">🔤</div>
+        <div class="s-name">Bahasa Arab</div>
+        <div class="s-tag">4 Ujian</div>
+      </div>
+      <div class="subject-card" onclick="openSubject('bindo')">
+        <div class="s-icon">📖</div>
+        <div class="s-name">Bahasa Indonesia</div>
+        <div class="s-tag">2 Ujian</div>
+      </div>
+      <div class="subject-card" onclick="openSubject('mtk')">
+        <div class="s-icon">🔢</div>
+        <div class="s-name">Matematika</div>
+        <div class="s-tag">2 Ujian</div>
+      </div>
+      <div class="subject-card" onclick="openSubject('pai')">
+        <div class="s-icon">🕋</div>
+        <div class="s-name">PAI</div>
+        <div class="s-tag">4 Ujian</div>
+      </div>
+      <div class="subject-card" onclick="openSubject('ppkn')">
+        <div class="s-icon">🇮🇩</div>
+        <div class="s-name">PPKn</div>
+        <div class="s-tag">2 Ujian</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCREEN 2: EXAM SELECT ══ -->
+<div id="s-select" class="screen">
+  <div class="pw">
+    <div class="page-header">
+      <button class="back-btn" onclick="showScreen('s-main')">← Menu Utama</button>
+      <div>
+        <h2 id="sel-title">Adab</h2>
+        <p>Pilih ujian yang ingin dikerjakan</p>
+      </div>
+    </div>
+    <div id="sel-list"></div>
+    <div class="name-box">
+      <label>✏️ Nama Siswa (isi sebelum mulai)</label>
+      <input type="text" id="student-name" placeholder="Tulis namamu di sini...">
+      <div class="name-err" id="name-err">⚠ Nama harus diisi dulu ya!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCREEN 3: EXAM ══ -->
+<div id="s-exam" class="screen">
+  <div class="pw">
+    <!-- Letterhead mirip PDF -->
+    <div class="soal-letterhead">
+      <div class="lh-header">
+        <div class="lh-logo">🕌</div>
+        <div class="lh-title-block">
+          <div class="lh-label">SUMATIF</div>
+          <div class="lh-school">PKBM SEKOLAH ISLAM ABU BAKAR</div>
+          <div class="lh-year">TAHUN PELAJARAN 2025/2026</div>
+        </div>
+      </div>
+      <div class="lh-gold-strip"></div>
+      <div class="lh-meta">
+        <div class="lh-meta-left">
+          <div class="lh-meta-row"><span class="lbl">Hari, tanggal</span>: <span id="lh-date">…………………………………</span></div>
+          <div class="lh-meta-row"><span class="lbl">Mata Pelajaran</span>: <strong id="lh-mapel">—</strong></div>
+          <div class="lh-meta-row"><span class="lbl">Kelas</span>: 1 (satu)</div>
+          <div class="lh-meta-row"><span class="lbl">Materi</span>: <span id="lh-materi">—</span></div>
+        </div>
+        <div class="lh-meta-right">
+          <div class="lh-name-row">Nama : <input class="lh-name-input" id="lh-name-input" readonly></div>
+          <div class="lh-nilai-paraf">
+            <div class="lh-np-col">
+              <div class="lh-np-head">Nilai</div>
+              <div class="lh-np-body"></div>
+            </div>
+            <div class="lh-np-col">
+              <div class="lh-np-head">Paraf</div>
+              <div class="lh-np-body"></div>
+            </div>
+          </div>
+          <div class="lh-no-absen">No. Absen<br><span class="lh-no-absen-box">&nbsp;</span></div>
+        </div>
+      </div>
+      <div class="progress-wrap">
+        <span class="progress-label">Progress</span>
+        <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-fill" style="width:0%"></div></div>
+        <span class="progress-count" id="prog-count">0/0</span>
+      </div>
+    </div>
+
+    <div id="exam-body"></div>
+    <div class="submit-area">
+      <button class="submit-btn" onclick="submitExam()">📝 Kumpulkan Jawaban</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCREEN 4: RESULT ══ -->
+<div id="s-result" class="screen">
+  <div class="pw">
+    <div class="result-hero">
+      <div class="score-ring" id="score-ring"><div class="score-num" id="score-num">0</div><div class="score-lbl">NILAI</div></div>
+      <div class="result-emj" id="result-emj">🌟</div>
+      <div class="result-name" id="result-name">—</div>
+      <div class="result-sub" id="result-sub">—</div>
+    </div>
+    <div class="result-stats">
+      <div class="stat-pill t" id="r-total">📋 Total: 0 soal</div>
+      <div class="stat-pill c" id="r-correct">✓ Benar: 0</div>
+      <div class="stat-pill w" id="r-wrong">✗ Salah: 0</div>
+    </div>
+    <div id="review-area"></div>
+    <div class="result-actions">
+      <button class="act-btn p" onclick="retryExam()">🔄 Ulangi</button>
+      <button class="act-btn s" onclick="showScreen('s-select')">📋 Menu Ujian</button>
+      <button class="act-btn g" onclick="showScreen('s-main')">🏠 Menu Utama</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// EXAM DATA
+// ═══════════════════════════════════════════════
+const SUBJECTS = {
+  adab: {
+    name: 'Adab',
+    icon: '🌿',
+    exams: [
+      {
+        key: 'adab1', title: 'Sumatif Ke-1', materi: 'Adab Kebersihan',
+        totalQ: 25,
+        pg: [
+          {q:'Menjaga ... adalah salah satu hal yang disukai Allah.',opts:['ketakutan','kebersihan','kemalasan'],ans:'B'},
+          {q:'Kebersihan adalah sebagian dari ....',opts:['amal','iman','Islam'],ans:'B'},
+          {q:'Hidup bersih dan sehat menjauhkan kita dari ....',opts:['teman','kotoran','penyakit'],ans:'C'},
+          {q:'Saat hendak shalat kita dianjurkan untuk ....',opts:['bersuci','tayamum','mandi'],ans:'A'},
+          {q:'Allah menyuruh kita memakai pakaian yang ....',opts:['mahal','wangi','bersih'],ans:'C'},
+          {q:'Agama Islam adalah agama yang mencintai ....',opts:['kebersihan','permusuhan','kekayaan'],ans:'A'},
+          {q:'Kotoran yang harus segera disucikan disebut ....',opts:['najis','noda','kotoran'],ans:'A'},
+          {q:'Salah satu yang termasuk fitrah manusia adalah ....',opts:['khitan','bermain','mencukur jenggot'],ans:'A'},
+          {q:'Contoh perilaku <strong>tidak</strong> menjaga kebersihan yang dilaknat Allah adalah ....',opts:['membersihkan diri dari najis','membersihkan diri setelah buang hajat','buang hajat di jalanan umum'],ans:'C'},
+          {q:'Menyingkirkan paku atau kawat berduri di tempat orang melintas adalah contoh menyingkirkan gangguan di ....',opts:['rumah','jalan','tempat tidur'],ans:'B'},
+          {q:'Saat beribadah ke masjid sebaiknya memakai pakaian yang ....',opts:['bersih','baru','mahal'],ans:'A'},
+          {q:'Lingkungan di sekitar rumah akan tetap bersih jika kita mau ....',opts:['bermain di lapangan','menjaga kerukunan','menjaga kebersihan'],ans:'C'},
+          {q:'Sampah yang berserakan di jalan sebaiknya ....',opts:['dilihat saja','disimpan','dibersihkan'],ans:'C'},
+          {q:'<span class="arabic">وَثِيَابَكَ فَطَهِّرْ</span><em>(wa tsiyaabaka fathohhir)</em> Arti dari dalil di atas adalah ....',opts:['dan pakaianmu gantilah','dan pakaianmu bersihkanlah','dan tubuhmu mandikanlah'],ans:'B'},
+          {q:'Allah menyukai orang-orang yang menjaga ....',opts:['penyakit','harta','kesucian'],ans:'C'},
+        ],
+        isian: [
+          {q:'Siwak adalah benda yang digunakan Rasulullah ﷺ saat membersihkan ….',ans:'Gigi dan mulut'},
+          {q:'Hidup bersih harus dibiasakan sejak ….',ans:'Kecil'},
+          {q:'Membuang sampah sembarangan membuat lingkungan menjadi ….',ans:'Kotor'},
+          {q:'Saat berada di dalam masjid kita harus menjaga ….',ans:'Kebersihan'},
+          {q:'Seorang muslim hendaknya selalu menjaga kebersihan dan ….',ans:'Kesucian'},
+          {q:'Jika ingin shalat hendaknya kita ….',ans:'Berwudhu'},
+          {q:'Membuang hajat di jalanan umum merupakan perbuatan tercela dan bahkan bisa mendapatkan … Allah.',ans:'Laknat'},
+          {q:'Allah memberikan siksa kubur bagi mereka yang saat buang air kecil tidak ….',ans:'Dibersihkan'},
+          {q:'Seseorang yang berwudhu sebelum tidur dan terjaga hingga pagi, akan dijaga oleh ….',ans:'Malaikat'},
+          {q:'Rasulullah ﷺ makan dan minum tidak … agar tidak kekenyangan.',ans:'Secukupnya'},
+        ]
+      },
+      {
+        key: 'adab2', title: 'Sumatif Ke-2', materi: 'Adab kepada Orang Tua',
+        totalQ: 25,
+        pg: [
+          {q:'Orang yang pertama kali kita hormati adalah ….',opts:['nenek','guru','orang tua'],ans:'C'},
+          {q:'Anak yang berbakti kepada orang tua disebut ….',opts:['anak hebat','anak pintar','anak berbakti'],ans:'C'},
+          {q:'Balasan dari Allah di akhirat nanti kepada anak yang berbakti adalah ….',opts:['rumah','surga','neraka'],ans:'B'},
+          {q:'Ridha Allah bergantung kepada ridha ….',opts:['orang tua','guru','anak'],ans:'A'},
+          {q:'Berperilaku sopan terhadap ayah dan ibu hendaknya dilakukan ….',opts:['ketika ada maunya','setiap hari','kadang-kadang'],ans:'B'},
+          {q:'Berbakti kepada ayah dan ibu hukumnya ….',opts:['sunnah','wajib','mubah'],ans:'B'},
+          {q:"Contoh bentuk patuh anak terhadap orang tua adalah ….",opts:["berkata 'ah' saat disuruh","menjalankan perintah orang tua","memarahi ibu karena tidak dibelikan mainan"],ans:'B'},
+          {q:'Saat orang tua kita bersedih yang kita lakukan adalah ….',opts:['cuek saja','menghiburnya','tidak peduli'],ans:'B'},
+          {q:'Saat berbicara kepada ayah dan ibu hendaklah dengan … suara.',opts:['merendahkan','meneriakkan','meninggikan'],ans:'A'},
+          {q:'Saat aku berbuat salah kepada orang tua hendaklah segera ….',opts:['meminta uang','memaksa agar memaafkan','meminta maaf'],ans:'C'},
+          {q:'Anak yang berbakti setiap hari selalu … orang tua.',opts:['memarahi','mendoakan','menyusahkan'],ans:'B'},
+          {q:'Salah satu dari 3 perkara yang membuat amalan tidak terputus yakni anak yang ….',opts:['pintar','kaya','shaleh'],ans:'C'},
+          {q:'Menghina orang tua dapat menyebabkan seorang anak mendapat ….',opts:['dosa besar','pahala','rahmat'],ans:'A'},
+          {q:'Saat orang tuamu belum mampu memenuhi kebutuhanmu, maka sikap kamu yang benar adalah ….',opts:['terus memaksa','bersabar','cemberut'],ans:'B'},
+          {q:'Saat ayah memanggilku, sikapku sebaiknya ….',opts:['menghampirinya','tidak peduli','pura-pura tidak dengar'],ans:'A'},
+        ],
+        isian: [
+          {q:'Orang tua yang pertama kali kita hormati adalah ….',ans:'Ibu'},
+          {q:'Birrul walidain artinya berbakti kepada ….',ans:'Orang tua'},
+          {q:'Orang tua kita di sekolah adalah ….',ans:'Guru'},
+          {q:'Allah memerintahkan kita untuk selalu menyayangi … yang melahirkan kita.',ans:'Ibu'},
+          {q:'Menghormati orang tua merupakan perintah ….',ans:'Allah'},
+          {q:'Berkata kasar kepada orang tua adalah contoh akhlak yang ….',ans:'Buruk'},
+          {q:'Kepada kedua orang tua kita sikap kita harus ….',ans:'Hormat'},
+          {q:'Walaupun orang tua kita sudah meninggal, kewajiban kita harus terus ….',ans:'Mendoakan'},
+          {q:'Saat orang tua kita sedang sakit yang kita lakukan adalah ….',ans:'Merawatnya'},
+          {q:'Saat mau berangkat sekolah aku ... kepada orang tuaku.',ans:'Pamit'},
+        ]
+      }
+    ]
+  },
+  akhlak: {
+    name: 'Akhlak Islami',
+    icon: '⭐',
+    exams: [
+      {
+        key:'akhlak1', title:'Sumatif Ke-1', materi:'Bab 1 dan 2',
+        totalQ: 30,
+        pg: [
+          {q:'Yang memerintahkan kita untuk berbakti orang tua adalah ….',opts:['adik dan kakak','malaikat dan jin','Allah dan Rasul-Nya'],ans:'C'},
+          {q:'Kita diperintahkan Allah untuk berbakti kepada ….',opts:['ayah dan ibu','kakak dan adik','kakek dan nenek'],ans:'A'},
+          {q:'Berbakti kepada orang tua disebut dengan ….',opts:['birrul walidain','uququl walidain','amrul walidain'],ans:'A'},
+          {q:'Orang tua kita sangat baik dan berjasa kepada kita karena ….',opts:['orang tua kita yang telah mendidik dan merawat kita','aku anak yang pintar','aku sayang ayah dan ibu'],ans:'A'},
+          {q:'Berbakti kepada orang tua lebih utama dari ….',opts:['jihad fii sabilillah','makan dan minum','main dan tidur'],ans:'A'},
+          {q:'Cara kita berbakti kepada orang tua yaitu ….',opts:['dengan mendoakan dan mentaati orang tua','dengan rajin makan dan tidur','dengan rajin bermain'],ans:'A'},
+          {q:'Ketika orang tuaku memanggilku maka harus segera ….',opts:['tidak peduli','menjawabnya','diam saja'],ans:'C'},
+          {q:'Durhaka kepada orang tua disebut dengan ….',opts:['amrul walidain','birrul walidain',"uququl walidain"],ans:'C'},
+          {q:'Durhaka kepada orang tua adalah perbuatan yang ….',opts:['baik','tidak baik','baik dan benar'],ans:'A'},
+          {q:'Contoh perbuatan durhaka kepada orang tua adalah ….',opts:['membantu ibu','berkata baik','melawan orang tua'],ans:'A'},
+          {q:'Al-Quran adalah kalamullah, kalamullah artinya ….',opts:['perkataan Allah','penglihatan Allah','pendengaran Allah'],ans:'A'},
+          {q:'Al-Quran diturunkan kepada ….',opts:['Nabi Muhammad ﷺ','Nabi Ibrahim','Nabi Yusuf'],ans:'A'},
+          {q:'Kita akan mendapatkan kebahagiaan dunia dan akhirat jika kita berpegang teguh kepada ….',opts:['koran dan bulletin','buku dan majalah','Al-Quran dan As-Sunnah'],ans:'C'},
+          {q:'Rajin membaca dan menghafal Al-Quran adalah bukti … Al-Quran.',opts:['cinta','benci','tidak suka'],ans:'A'},
+          {q:'Malas membaca Al-Quran adalah tanda … Al-Quran.',opts:['suka','cinta','tidak cinta'],ans:'C'},
+          {q:'Orang yang mencintai Al-Quran, maka dia akan rajin ….',opts:['membaca Al-Quran','membawa Al-Quran','membeli Al-Quran'],ans:'A'},
+          {q:'Sebaik-baik kalian adalah yang mempelajari Al-Quran dan …. (HR. Bukhari)',opts:['mengajarkannya','membiarkannya','menyimpannya'],ans:'A'},
+          {q:'Orang yang mencintai Al-Quran dan As-Sunnah tidak akan tersesat di dunia dan ….',opts:['sekolah','akhirat','masjid'],ans:'B'},
+          {q:'Aku suka membaca dan menghafal Al-Quran setiap ….',opts:['hari','bulan','tahun'],ans:'A'},
+          {q:'Ketika aku melihat lembaran Al-Quran terjatuh dan tercecer aku segera ….',opts:['membuangnya','menyelamatkannya','membiarkannya'],ans:'B'},
+        ],
+        isian: [
+          {q:'Saat ibuku sedang repot aku segera ….',ans:'Membantunya'},
+          {q:'Aku suka membantu … di rumah.',ans:'Orang Tuaku'},
+          {q:'Berbakti kepada orang tua adalah amalan yang di ... Allah.',ans:'Dicintai'},
+          {q:'Kita tidak boleh berkata … kepada orang tua kita.',ans:'Kasar'},
+          {q:'Rabbighfirlii wali waalidayya warhamhumaa kamaa rabbayani shogiro adalah doa untuk ….',ans:'Orang Tua'},
+          {q:'Allah akan mencintai orang yang suka membaca dan menghafal ….',ans:'Al-Quran'},
+          {q:'Dengan kita mencintai Al-Quran dan As-Sunnah maka Allah akan mencintai kita dan mengampuni ... kita.',ans:'Dosa'},
+          {q:'Al-Quran akan datang pada hari kiamat sebagai … bagi pembacanya.',ans:"Syafa'at"},
+          {q:'Dalam membaca dan menghafal Al-Quran niat kita harus … karena Allah.',ans:'Ikhlas'},
+          {q:'Sebelum membaca Al-Quran kita diperintah untuk berlindung kepada Allah dari godaan ….',ans:'Syaithon'},
+        ]
+      },
+      {
+        key:'akhlak2', title:'Sumatif Ke-2', materi:'Bab 3 dan 5',
+        totalQ: 30,
+        pg: [
+          {q:'Menahan marah dan mudah memaafkan adalah akhlak yang ….',opts:['mulia','buruk','tidak baik'],ans:'A'},
+          {q:'Dalam pergaulan sehari-hari sesama manusia kita harus memiliki ….',opts:['akhlak yang buruk','akhlak yang mulia','buku dan pensil'],ans:'B'},
+          {q:'Marah disebabkan oleh bisikan ….',opts:['setan','teman','malaikat'],ans:'A'},
+          {q:'Agar aku tidak marah maka aku berlindung kepada ….',opts:['setan','Allah','malaikat'],ans:'B'},
+          {q:'Rasulullah ﷺ melarang kita agar tidak ….',opts:['bersedekah','makan','marah'],ans:'C'},
+          {q:'Ketika ada yang menyakitiku aku akan ….',opts:['memaafkannya','memukulnya','memarahinya'],ans:'A'},
+          {q:'Mukmin yang kuat adalah orang yang mampu menahan ….',opts:['minum','lapar','marah'],ans:'C'},
+          {q:'Allah menyukai orang-orang yang menahan marah dan ... orang lain.',opts:['membenci','menjelekkan','memaafkan'],ans:'C'},
+          {q:'Agar kita tidak mengucapkan perkataan yang buruk sebaiknya kita ….',opts:['diam','banyak bicara','marah'],ans:'A'},
+          {q:'Jika kita memaafkan orang lain maka Allah akan ….',opts:['mengampuni kita','membenci kita','marah'],ans:'A'},
+          {q:'Bulan Ramadhan adalah bulan diwajibkan untuk ….',opts:['bermain','berpuasa','berdagang'],ans:'B'},
+          {q:'Di bulan Ramadhan Allah membuka pintu surga dan menutup pintu ….',opts:['surga','neraka','sekolah'],ans:'B'},
+          {q:'Asshaum artinya ….',opts:['puasa','berbuka','bersyahadat'],ans:'A'},
+          {q:'Hukum puasa di bulan Ramadhan adalah ….',opts:['wajib','sunnah','boleh'],ans:'A'},
+          {q:'Puasa di bulan Ramadhan adalah rukun Islam yang ke ….',opts:['delapan','empat','dua'],ans:'B'},
+          {q:'Puasa adalah menahan diri dari ….',opts:['semua yang membatalkan puasa','semua yang membatalkan wudhu','semua yang membatalkan shalat'],ans:'A'},
+          {q:'Kita berpuasa Ramadan dari terbit fajar sampai terbenam ….',opts:['bulan','matahari','bintang'],ans:'B'},
+          {q:'Dengan kita berpuasa di bulan Ramadhan kita bisa menjadi orang yang ….',opts:['bertakwa','dermawan','sombong'],ans:'A'},
+          {q:'Puasa kita bisa batal jika kita ….',opts:['makan dan minum','main dan tidur','belajar dan olahraga'],ans:'A'},
+          {q:'Pintu surga khusus bagi orang yang berpuasa adalah ….',opts:['pintu arrayan','pintu firdaus','pintu neraka'],ans:'A'},
+        ],
+        isian: [
+          {q:'Suka memaafkan orang lain adalah ciri orang yang ….',ans:'Beriman'},
+          {q:'Jika kita bersalah maka sebaiknya kita ….',ans:'Meminta Maaf'},
+          {q:'Balaslah kejahatan dengan ….',ans:'Kebaikan'},
+          {q:'Mengubah posisi badan, diam dan beristighfar dapat mengurangi rasa ….',ans:'Marah'},
+          {q:'Orang yang suka memaafkan orang lain akan mendapatkan ….',ans:'Pahala dan Surga'},
+          {q:'Bau mulut orang yang berpuasa lebih wangi dari minyak ….',ans:'Kasturi'},
+          {q:'Puasa adalah perisai yaitu ….',ans:'Pelindung atau Tameng'},
+          {q:"Shalat 11 raka'at di bulan Ramadhan adalah shalat ….",ans:'Tarawih'},
+          {q:'Orang yang berpuasa kemudian dia makan, minum dan muntah dengan sengaja maka puasanya ….',ans:'Batal'},
+          {q:'Puasa dapat menghapuskan dosa yang telah lalu dan bisa memasukkan ke dalam ....',ans:'Dosa'},
+        ]
+      },
+      {
+        key:'akhlak3', title:'Sumatif Ke-3', materi:'Bab 4',
+        totalQ: 20,
+        pg: [
+          {q:'Jujur artinya berkata dan berbuat yang ….',opts:['sebenarnya','semaunya','seenaknya'],ans:'A'},
+          {q:'Assidqu artinya ….',opts:['jujur','bohong','berbakti'],ans:'A'},
+          {q:'Alkidzbu artinya ….',opts:['jujur','berdusta','berjanji'],ans:'B'},
+          {q:'Lawannya jujur adalah ….',opts:['berjanji','bermain','berdusta'],ans:'C'},
+          {q:'Mencontek adalah perbuatan yang ….',opts:['jujur','tidak jujur','baik'],ans:'B'},
+          {q:'Suka berbohong adalah salah satu tanda sifat orang ….',opts:['jujur','beriman','munafiq'],ans:'C'},
+          {q:'Kejujuran akan membawa kepada ….',opts:['kedustaan','keburukan','kebaikan'],ans:'C'},
+          {q:'Kedustaan akan membawa kepada ….',opts:['kesenangan','keburukan','kebaikan'],ans:'B'},
+          {q:'Allah ta\'aala memerintahkan kita untuk berbuat ….',opts:['dusta','jujur','dosa'],ans:'B'},
+          {q:'Orang yang jujur akan mendapatkan … Allah.',opts:['pahala dan surga','rumah dan mobil','makan dan minum'],ans:'A'},
+        ],
+        isian: [
+          {q:'Yang memerintahkan kita untuk jujur adalah ….',ans:'Allah'},
+          {q:'Tanda orang munafik itu ada ….',ans:'Tiga'},
+          {q:'Orang yang suka berdusta akan dijauhi oleh ….',ans:'Teman'},
+          {q:'Kita harus jujur dalam perkataan dan ….',ans:'Perbuatan'},
+          {q:'Kebaikan akan mengantarkan ke surga dan keburukan akan mengantarkan ke ….',ans:'Neraka'},
+          {q:'Wahai orang-orang yang beriman bertakwalah kalian kepada ....',ans:'Allah'},
+          {q:'Di dalam Al-Quran Allah perintahkan kita agar bersama orang-orang yang ....',ans:'Jujur'},
+          {q:'Rasulullah ﷺ perintahkan kita untuk jujur dan menjauh dari perbuatan ....',ans:'Dusta'},
+          {q:'Aku tidak suka sifat dusta dan aku suka sifat ....',ans:'Jujur'},
+          {q:'Yang termasuk akhlak yang mulia adalah sifat ....',ans:'Jujur'},
+        ]
+      }
+    ]
+  },
+  arab: {
+    name: 'Bahasa Arab',
+    icon: '🔤',
+    exams: [
+      {
+        key:'arab1', title:'Sumatif Ke-1', materi:'Pelajaran 1 dan 2 (Warna & Rumah)',
+        totalQ: 25,
+        pg: [
+          {q:'Bahasa Arabnya hijau adalah ….',opts:['أَخْضَر (akhdhar)','أَزْرَق (azraqu)','أَسْوَد (aswadu)'],ans:'A'},
+          {q:'أَزْرَق (azraqu) artinya adalah ….',opts:['hijau','biru','kuning'],ans:'B'},
+          {q:'Bahasa Arabnya hitam adalah ….',opts:['أَبْيَض (abyaddhu)','أَسْوَد (aswadu)','أَحْمَر (ahmaru)'],ans:'B'},
+          {q:'Kata رَمَادِي jika dipisah hurufnya adalah ….',opts:['ر - م - ا - د - ي','ز - ه - ر - ي','ب - ن - ف - س - ج - ي'],ans:'A'},
+          {q:'رَمَادِي (romaadiyyun) artinya adalah ….',opts:['coklat','merah','abu-abu'],ans:'C'},
+          {q:'Kata زُهْرِي (zuhriyyun) jika dipisah menjadi ….',opts:['ز - ه - ر - ي','ر - م - ا - د - ي','أ - ز - ر - ق'],ans:'A'},
+          {q:'أَسْمَر (asmaru) artinya adalah ….',opts:['ungu','cokelat','merah'],ans:'B'},
+          {q:'Bahasa Arabnya kuning adalah ….',opts:['أَحْمَر (ahmaru)','أَخْضَر (akhdhar)','أَصْفَر (ashfaru)'],ans:'C'},
+          {q:'بَنَفْسَجِي (banafsajiyun) artinya adalah ….',opts:['ungu','cokelat','pink'],ans:'A'},
+          {q:'Kata وَرْدِي jika dipisah menjadi ….',opts:['و - ر - د - ي','ز - ه - ر - ي','ب - ن - ف - س - ج - ي'],ans:'A'},
+          {q:'Bahasa Arabnya pintu adalah ….',opts:['بَاب (baabun)','سَقْف (saqofun)','نَافِذَة (naafidzatun)'],ans:'A'},
+          {q:'Kata سَقْف (saqofun) artinya adalah ….',opts:['jendela','atap','lantai'],ans:'B'},
+          {q:'Kata نَافِذَة jika dipisah menjadi ….',opts:['ن - ا - ف - ذ - ة','ب - ا - ب','س - ق - ف'],ans:'A'},
+          {q:'Aku masuk dan keluar melalui … rumah.',opts:['جِدَار (jidaarun)','بَاب (baabun)','سَقْف (saqofun)'],ans:'B'},
+          {q:'Kata مِصْبَاح (mishbaahun) artinya adalah ….',opts:['lampu','jendela','pintu'],ans:'A'},
+          {q:'Kata سَاعَة (saa\'atun) jika dipisah menjadi ….',opts:['غ - ر - ف - ة','س - ا - ع - ة','ك - ر - س - ي'],ans:'B'},
+          {q:'Kata سِتَار (sitaarun) artinya adalah ….',opts:['jam','lampu','gordeng'],ans:'C'},
+          {q:'Bahasa Arabnya kursi adalah ….',opts:['سَقْف (saqofun)','كُرْسِي (kursiyyun)','بَاب (baabun)'],ans:'B'},
+          {q:'Aku bisa mengetahui waktu sekolah dan belajar dengan ….',opts:['سَاعَة (saa\'atun)','بَاب (baabun)','نَافِذَة (naafidzatun)'],ans:'A'},
+          {q:'Alat untuk menerangi ruangan di rumah disebut ….',opts:['سِتَار (sitaarun)','مِصْبَاح (mishbaahun)','كُرْسِي (kursiyyun)'],ans:'B'},
+        ],
+        isian: [
+          {q:'أَبْيَض (abyaddhu) artinya adalah ….',ans:'Putih'},
+          {q:'Kata زُهْرِي (zuhriyyun) jika dipisah hurufnya menjadi ….',ans:'ز ه ر ي'},
+          {q:'Bahasa Arabnya abu-abu adalah ….',ans:'رَمَادِي'},
+          {q:'Kata أَسْوَد (aswadu) artinya ….',ans:'Hitam'},
+          {q:'Kata أَحْمَر (ahmaru) jika dipisah hurufnya menjadi ….',ans:'أ ح م ر'},
+          {q:'غُرْفَةُ الجُلُوسِ (gurfatul juluusi) artinya adalah ….',ans:'Ruang keluarga'},
+          {q:'Bahasa Arabnya kamar tidur adalah ….',ans:'غُرْفَةُ النَّوْم'},
+          {q:'Kata حَمَّام (hammaamun) jika dipisah hurufnya menjadi ….',ans:'ح م ا م'},
+          {q:'غُرْفَةُ الضِّيَافَة (gurfatuddhiyaafati) artinya adalah ….',ans:'Ruang tamu'},
+          {q:'غُرْفَةُ النَّوْم (gurfatunnawmi) artinya adalah ….',ans:'Kamar tidur'},
+        ]
+      },
+      {
+        key:'arab2', title:'Sumatif Ke-2', materi:'Pelajaran 3 dan 4 (Kamar Tidur & Dapur)',
+        totalQ: 25,
+        pg: [
+          {q:'Kata فِرَاش (firoosyun) artinya adalah ….',opts:['bantal','kasur','lemari'],ans:'B'},
+          {q:'Tempat untuk menyimpan pakaian disebut ….',opts:['خِزَانَة (khizaanatun)','سَرِير (sariirun)','وِسَادَة (wisaadatun)'],ans:'A'},
+          {q:'Kata سَرِير (sariirun) jika dipisah menjadi ….',opts:['س - ر - ي - ر','خ - ز - ا - ن - ة','ل - ح - ا - ف'],ans:'A'},
+          {q:'Kata وِسَادَة (wisaadatun) artinya adalah ….',opts:['selimut','lemari','bantal'],ans:'C'},
+          {q:'Alat yang digunakan ketika aku kedinginan saat tidur adalah ….',opts:['سَرِير (sariirun)','خِزَانَة (khizaanatun)','لِحَاف (lihaafun)'],ans:'C'},
+          {q:'Kata عِطْر (ithrun) jika dipisah menjadi ….',opts:['م - ش - ط','ع - ط - ر','م - ر - آ - ة'],ans:'B'},
+          {q:'Bahasa Arabnya sisir adalah ….',opts:['مُشْط (musytun)','دُرْج (durjun)','مِرْآة (miraatun)'],ans:'A'},
+          {q:'Alat yang digunakan untuk mengaca (berkaca) adalah ….',opts:['مِرْآة (miraatun)','سَرِير (sariirun)','دُرْج (durjun)'],ans:'A'},
+          {q:'Kata سَجَّادَة (sajjaadatun) jika dipisah menjadi ….',opts:['م - ش - ط','س - ج - ا - د - ة','ل - ح - ا - ف'],ans:'B'},
+          {q:'Kata دُرْج (durjun) artinya adalah ….',opts:['sajadah','laci','parfum'],ans:'B'},
+          {q:'Kata قَلَّايَة (qollaayatun) artinya adalah ….',opts:['spatula','rak','penggorengan'],ans:'A'},
+          {q:'Kata سِكِّين (sikkiinun) jika dipisah menjadi ….',opts:['س - ك - ي - ن','ق - ل - ا - ي - ة','م - ق - ل - ا - ة'],ans:'C'},
+          {q:'Bahasa Arabnya kompor adalah ….',opts:['قَلَّايَة (qollaayatun)','مِقْلَاة (miqlaatun)','فُرْن (furnun)'],ans:'C'},
+          {q:'Kata مِقْلَاة (miqlaatun) artinya adalah ….',opts:['penggorengan','kompor','spatula'],ans:'A'},
+          {q:'Kata قَلَّايَة (qollaayatun) jika dipisah menjadi ….',opts:['ق - ل - ا - ي - ة','م - ق - ل - ا - ة','ف - ر - ن'],ans:'B'},
+          {q:'Bahasa Arabnya gelas adalah ….',opts:['كُوب (kuubun)','صَحْن (sohnun)','مِلْعَقَة (mil\'aaqotun)'],ans:'A'},
+          {q:'Kata شَوْكَة (syaukatun) artinya adalah ….',opts:['piring','sendok','garpu'],ans:'C'},
+          {q:'Kata مِلْعَقَة (mil\'aqotun) jika dipisah menjadi ….',opts:['ص - ح - ن','ش - و - ك - ة','م - ل - ع - ق - ة'],ans:'C'},
+          {q:'Bahasa Arabnya teko adalah ….',opts:['كُوب (kuubun)','إِبْرِيق (ibriiqun)','شَوْكَة (syaukaatun)'],ans:'B'},
+          {q:'Kata صَحْن (shohnun) artinya adalah ….',opts:['piring','sendok','gelas'],ans:'A'},
+        ],
+        isian: [
+          {q:'Kata فِرَاش (firosyun) artinya adalah ….',ans:'Kasur'},
+          {q:'Kata مُشْط (musytun) jika dipisah menjadi ….',ans:'م ش ط'},
+          {q:'Bahasa Arabnya selimut adalah ….',ans:'لِحَاف'},
+          {q:'Kata عِطْر (ithrun) artinya adalah ….',ans:'Parfum'},
+          {q:'Kata مِرْآة (mir aatun) artinya adalah ….',ans:'Cermin'},
+          {q:'Bahasa Arabnya rak adalah ….',ans:'رَف'},
+          {q:'Kata فُرْن (furnun) artinya adalah ….',ans:'Kompor'},
+          {q:'Alat untuk menggoreng makanan adalah ….',ans:'مِقْلَاة'},
+          {q:'Kata كُوب (kuubun) jika dipisah menjadi ….',ans:'ك و ب'},
+          {q:'Bahasa Arabnya piring adalah ….',ans:'صَحْن'},
+        ]
+      },
+      {
+        key:'arab3', title:'Sumatif Ke-3', materi:'Bab 5 dan 6 (Kamar Mandi & Pakaian)',
+        totalQ: 25,
+        pg: [
+          {q:'Bahasa Arabnya ember adalah ….',opts:['مِغْرَفَة (migrofatun)','دَلْو (dalwun)','مِرْحَاض (mirhaadhun)'],ans:'B'},
+          {q:'حَنَفِيَّة (hanafiyyatun) artinya ….',opts:['kran','gayung','sabun'],ans:'A'},
+          {q:'مِغْرَفَة (mighrofatun) artinya adalah ….',opts:['gayung','kloset','kran'],ans:'A'},
+          {q:'Kata مِرْحَاض (mirhaadhun) jika dipisah menjadi ….',opts:['م - ر - ح - ا - ض','م - غ - ر - ف - ة','م - ن - ش - ف - ة'],ans:'C'},
+          {q:'مِرْحَاض (mirhaadhun) artinya adalah ….',opts:['handuk','odol','kloset'],ans:'C'},
+          {q:'Kata مِنْشَفَة (minsyafatun) jika dipisah maknanya adalah ….',opts:['handuk','sikat gigi','sabun'],ans:'A'},
+          {q:'Bahasa Arabnya odol adalah ….',opts:['صَابُون (shoobuunun)','فُرْشَاةُ الأَسْنَان (fursyaatul asnaani)','مَعْجُون (ma\'juunun)'],ans:'C'},
+          {q:'فُرْشَاةُ الأَسْنَان (fursyaatul asnaani) yaitu alat yang digunakan untuk menggosok ….',opts:['wajah','gigi','kaki'],ans:'B'},
+          {q:'Kita mencuci kepala menggunakan ….',opts:['مَعْجُون (ma\'juunun)','شَامْبُو (syaambuu)','صَابُون (shoobuunun)'],ans:'B'},
+          {q:'Kata مَعْجُون (ma\'juunun) jika dipisah menjadi ….',opts:['ف - ر - ش - ا - ة - ا - ل - أ - س - ن - ا - ن','م - ن - ش - ف - ة','م - ع - ج - و - ن'],ans:'C'},
+          {q:'Laki-laki menutup kepala dengan menggunakan ….',opts:['نِقَاب (niqoobun)','خِمَار (khimaarun)','قَلَنْسُوَة (qolansuwatun)'],ans:'C'},
+          {q:'لِثَام (litsaamun) artinya adalah ….',opts:['masker','sabuk','jilbab'],ans:'A'},
+          {q:'Bahasa Arabnya sorban adalah ….',opts:['قَلَنْسُوَة (qolansuwatun)','نِقَاب (niqoobun)','عِمَامَة (imaamatun)'],ans:'C'},
+          {q:'Kata قَمِيص (qomiishun) jika dipisah menjadi ….',opts:['ق - م - ي - ص','ق - ل - ن - س - و - ة','ع - م - ا - م - ة'],ans:'A'},
+          {q:'Kata مِعْطَف (mi\'thofun) jika dipisah menjadi ….',opts:['ق - ل - ن - س - و - ة','م - ع - ط - ف','ص - د - ر - ة'],ans:'B'},
+          {q:'Bahasa Arabnya peci adalah ….',opts:['نِقَاب (niqoobun)','خِمَار (khimaarun)','قَلَنْسُوَة (qolansuwatun)'],ans:'C'},
+          {q:'Setiap kita berangkat sekolah menggunakan baju ….',opts:['صُدْرَة (sudrotun)','فَانِلَة (faanilatun)','زِيٌّ مَدْرَسِي (ziyyun madrosiyyun)'],ans:'C'},
+          {q:'صُدْرَة (shudrotun) artinya adalah ….',opts:['kemeja','jaket','rompi'],ans:'C'},
+          {q:'Kata جِلْبَاب (jilbaabun) jika dipisah menjadi ….',opts:['س - ر - و - ا - ل','ت - ن - و - ر - ة','ج - ل - ب - ا - ب'],ans:'C'},
+          {q:'تَنُّوْرَة (tannuurotun) artinya adalah ….',opts:['rok','celana','sarung'],ans:'A'},
+        ],
+        isian: [
+          {q:'Bahasa Arabnya kloset adalah ….',ans:'مِرْحَاض'},
+          {q:'صَابُون (shoobuunun) artinya adalah ….',ans:'Sabun'},
+          {q:'Bahasa Arabnya tisu adalah ….',ans:'مِنْدِيْل'},
+          {q:'شَامْبُو (syaambuu) artinya adalah ….',ans:'Shampo'},
+          {q:'Kata فُرْشَاةُ الأَسْنَان (fursyaatul asnaani) jika dipisah menjadi ….',ans:'Sikat gigi'},
+          {q:'Benda yang digunakan untuk alas kaki adalah ….',ans:'نَعْل'},
+          {q:'مِعْصَم (mi\'shom) artinya adalah ….',ans:'Manset'},
+          {q:'Kata جِلْبَاب (jilbaabun) jika dipisah menjadi ….',ans:'ج ل ب ا ب'},
+          {q:'جَوْرَب (jaurobun) artinya adalah ….',ans:'Kaos kaki'},
+          {q:'Bahasa Arabnya sarung adalah ….',ans:'إِزَار'},
+        ]
+      },
+      {
+        key:'arab4', title:'Sumatif Ke-4', materi:'Bab 7 dan 8 (Transportasi & Bilangan)',
+        totalQ: 25,
+        pg: [
+          {q:'Bahasa Arabnya sepeda adalah ….',opts:['دَرَّاجَةُ النَّارِيَّة (darraajatun naariyyati)','عَرَبَة (\'arabatun)','دَرَّاجَة (darroojatun)'],ans:'C'},
+          {q:'Kata سَيَّارَة (sayyaaratun) jika dipisah menjadi ….',opts:['د - ر - ا - ج - ة','س - ي - ا - ر - ة','ح - ا - ف - ل - ة'],ans:'B'},
+          {q:'Kata حَافِلَة (haafilatun) artinya adalah ….',opts:['bis','sepeda','sepeda motor'],ans:'A'},
+          {q:'Kendaraan yang ditarik oleh kuda adalah ….',opts:['دَرَّاجَة (darraajatun)','عَرَبَة (\'arabatun)','سَيَّارَة (sayyaaratun)'],ans:'B'},
+          {q:'Kata دَرَّاجَةُ النَّارِيَّة (darraajatun naariyyati) artinya adalah ….',opts:['sepeda motor','sepeda','delman'],ans:'A'},
+          {q:'Kata قِطَار (qithoorun) artinya adalah ….',opts:['pesawat','kereta','kapal laut'],ans:'B'},
+          {q:'Kata طَائِرَة (thooirotun) artinya adalah ….',opts:['kereta','pesawat','sepeda motor'],ans:'B'},
+          {q:'Kata سَفِيْنَة jika dipisah menjadi ….',opts:['ق - ط - ا - ر','م - ر - ك - ب','س - ف - ي - ن - ة'],ans:'C'},
+          {q:'Kata مَرْكَب jika dipisah menjadi ….',opts:['س - ي - ا - ر - ة - ا - ل - إ - س - ع - ا - ف','ط - ا - ئ - ر - ة','م - ر - ك - ب'],ans:'C'},
+          {q:'Kendaraan yang digunakan untuk mengangkut pasien ke rumah sakit adalah ….',opts:['سَيَّارَةُ الإِسْعَاف (sayyaaratul is\'aafi)','مَرْكَب (markabun)','طَائِرَة (thooiratun)'],ans:'A'},
+          {q:'Setelah angka ٦ adalah ….',opts:['٢','٨','٧'],ans:'C'},
+          {q:'Soal 6 + 3 adalah ….',opts:['٨','٧','٩'],ans:'C'},
+          {q:'Bahasa Arabnya Sepuluh adalah ….',opts:['عَشَرَة (\'asyaratun)','ثَمَانِيَة (tsamaaniyatun)','سَبْعَة (sab\'atun)'],ans:'A'},
+          {q:'ثَمَانِيَة (tsamaaniyatun) jika ditulis dengan angka Arab menjadi ….',opts:['٨','٧','٦'],ans:'A'},
+          {q:'Arti kata سِتَّة (sittatun) adalah ….',opts:['sembilan','enam','tujuh'],ans:'B'},
+          {q:'Kata تِسْعَة (tis\'atun) jika dipisah menjadi ….',opts:['ت - ع - ش - ة','ت - س - ع - ة','ت - ع - ش - ر'],ans:'C'},
+          {q:'Bahasa Arabnya tujuh adalah ….',opts:['سِتَّة (sittatun)','سَبْعَة (sab\'atun)','تِسْعَة (tis\'atun)'],ans:'B'},
+          {q:'ثَمَانِيَة (tsamaaniatun) jika dipisah maknanya menjadi ….',opts:['sembilan','sepuluh','delapan'],ans:'C'},
+          {q:'Kata عَشَرَة (\'asyaratun) jika dipisah menjadi ….',opts:['ت - ر - س - ع','ت - ع - س - ة','ع - ش - ر - ة'],ans:'C'},
+          {q:'Hitunglah berapa jumlah pisang di bawah ini …. (٩ buah)',opts:['١٠','٩','٨'],ans:'A'},
+        ],
+        isian: [
+          {q:'Kata حَافِلَة jika dipisah menjadi ….',ans:'ح ا ف ل ة'},
+          {q:'Bahasa Arabnya mobil adalah ….',ans:'سَيَّارَة'},
+          {q:'Kata مَرْكَب (markabun) artinya adalah ….',ans:'Perahu'},
+          {q:'Bahasa Arabnya kapal laut adalah ….',ans:'سَفِيْنَة'},
+          {q:'Kata قِطَار jika dipisah menjadi ….',ans:'ق ط ا ر'},
+          {q:'Tulislah hasil penjumlahan (5+4) dengan tulisan bahasa Arabnya = ….',ans:'٩'},
+          {q:'Kata سِتَّة jika dipisah menjadi ….',ans:'س ت ة'},
+          {q:'Bahasa Arabnya delapan adalah ….',ans:'ثَمَانِيَة'},
+          {q:'Sebelum angka ١٠ adalah angka ….',ans:'٩'},
+          {q:'Jumlah pensil di bawah ini adalah …. (6 pensil)',ans:'٦ / سِتَّة'},
+        ]
+      }
+    ]
+  },
+  bindo: {
+    name: 'Bahasa Indonesia',
+    icon: '📖',
+    exams: [
+      {
+        key:'bindo1', title:'Sumatif Ke-1', materi:'Pelajaran 1 & 2',
+        totalQ: 30,
+        pg: [
+          {q:'Hewan yang memiliki suku kata "ma" adalah ….',opts:['musang','macan','matahari'],ans:'B'},
+          {q:'Suku kata \'mu\' ada pada kata ….',opts:['musang','mata','minum'],ans:'A'},
+          {q:'Apabila berbuat salah sebaiknya kita ….',opts:['minta makan','minta maaf','minta pulang'],ans:'B'},
+          {q:'Tanda baca yang digunakan untuk mengakhiri kalimat adalah ….',opts:['titik','koma','tanya'],ans:'A'},
+          {q:'Ibu meminta bantuan adik. Ibu mengucapkan kata ….',opts:['permisi','tolong','terima kasih'],ans:'B'},
+          {q:'Contoh penggunaan tanda titik yang benar adalah ….',opts:['setiap pagi. Ibu jalan-jalan','Ibu membeli sekilo telur.','Mila suka minum. Es krim'],ans:'B'},
+          {q:"Kata 'terima kasih' diucapkan saat kita ….",opts:['minta izin','dimarahi','ditolong'],ans:'C'},
+          {q:'Raisa akan pindah ke ….',opts:['Jakarta','Semarang','Solo'],ans:'C'},
+          {q:'Perasaan Alya memiliki teman Raisa yakni ….',opts:['sedih','gelisah','bahagia'],ans:'C'},
+          {q:'Alya dan Raisa selalu ….',opts:['berteman','bertengkar','bermusuhan'],ans:'A'},
+          {q:'Yang suka olahraga adalah ….',opts:['Ami','Ayah','kak Anggi'],ans:'C'},
+          {q:'Keluarga Anggi memiliki kesukaan yang ….',opts:['sama','beragam','mirip'],ans:'B'},
+          {q:'Meskipun berbeda kesukaan, keluarga Anggi tetap ….',opts:['menyayangi','bertengkar','bermusuhan'],ans:'A'},
+          {q:'Ega suka siomay, Wahyu suka bakso. Mereka memiliki perbedaan ….',opts:['hobi','makanan kesukaan','umur'],ans:'B'},
+          {q:'Hewan yang berawalan \'go\' adalah ….',opts:['Gajah','Gorila','Gelatik'],ans:'B'},
+          {q:'Suku kata awal pada benda (gambar gitar) adalah ….',opts:['ga','ge','gu'],ans:'C'},
+          {q:'Benda yang bukan berawalan suku kata \'ga\' adalah ….',opts:['gabus','garpu','gelas'],ans:'C'},
+          {q:'Nama bilangan pada kaus (angka 7) adalah ….',opts:['tujuh','enam','lima'],ans:'A'},
+          {q:'Banyaknya bola (7 bola) ada ….',opts:['6','7','8'],ans:'B'},
+          {q:'Nama bilangan sepuluh adalah ….',opts:['11','10','01'],ans:'B'},
+        ],
+        isian: [
+          {q:'Sekarang … hujan. Jangan lupa membawa payung! Kata yang tepat untuk kalimat di atas adalah ….',ans:'Musim'},
+          {q:'Bermain bersama teman-teman di sekolah rasanya ….',ans:'Menyenangkan'},
+          {q:'Saat kamu ingin lewat di depan orang yang sedang duduk, maka kamu ucapkan ….',ans:'Permisi'},
+          {q:'Tanda baca titik diletakkan pada … kalimat.',ans:'Akhir'},
+          {q:'Saat kita meminta bantuan orang lain, hendaknya mengucapkan kata ….',ans:'Tolong'},
+          {q:'Fahmi terlihat menangis, Ia merasa ….',ans:'Sedih'},
+          {q:"Aku suka ayam goreng. Kata 'goreng' diawali suku kata ….",ans:'Go'},
+          {q:'Farah tidak suka cabai, karena cabai rasanya ….',ans:'Pedas'},
+          {q:'Kegemaran anak pada gambar (bersepeda) adalah ….',ans:'Bersepeda'},
+          {q:'Anak yang sedang bermain perosotan sebanyak ….',ans:'Dua orang'},
+        ]
+      },
+      {
+        key:'bindo2', title:'Sumatif Ke-2', materi:'Pelajaran 3 & 4',
+        totalQ: 30,
+        pg: [
+          {q:'Yang ingin dibeli Sofia adalah ….',opts:['buku cerita','tas sekolah','sepatu'],ans:'B'},
+          {q:'Agar Sofia mendapatkan tas sekolah, maka Sofia ….',opts:['meminta uang pada ibu','membeli tas bekas','menabung dari uang saku'],ans:'C'},
+          {q:'Sofia mengurangi jajan di sekolah karena ….',opts:['untuk menabung','ia tidak suka jajan','ia lupa membawa uang saku'],ans:'A'},
+          {q:'Kita sebaiknya tidak menggunakan uang saku untuk membeli hal-hal yang tidak penting. Maka kita harus hidup ….',opts:['boros','hemat','sesukanya'],ans:'B'},
+          {q:'Uang tabungan sebaiknya digunakan untuk membeli ….',opts:['barang yang diinginkan','barang yang dibutuhkan','mainan'],ans:'B'},
+          {q:'Kalimat yang sesuai dengan benda pada gambar (teh) yaitu ….',opts:['Ibu membeli sayur bayam','Aku suka makan tempe','Ayah minum teh'],ans:'B'},
+          {q:'Faiz ingin bola karena dapat digunakan untuk ….',opts:['bermain','melompat','berenang'],ans:'A'},
+          {q:'Benda yang dipakai sebagai alat pembayaran adalah ….',opts:['pensil','uang','buku'],ans:'B'},
+          {q:'Benda pada gambar (setrika) berguna untuk ….',opts:['merapikan pakaian','mencuci piring','melindungi tubuh'],ans:'A'},
+          {q:'Nama benda yang diawali huruf "c" adalah ….',opts:['buku','kemeja','cermin'],ans:'C'},
+          {q:'Sofa berada di … lukisan.',opts:['depan','atas','bawah'],ans:'C'},
+          {q:'Vas bunga berada di … meja.',opts:['atas','dalam','samping'],ans:'A'},
+          {q:'Karpet berada di … sofa.',opts:['bawah','atas','dalam'],ans:'A'},
+          {q:'Profesi yang sesuai dengan gambar (kurir) adalah ….',opts:['petani','kurir','polisi'],ans:'B'},
+          {q:'Yang bukan peralatan yang dipakai oleh dokter adalah ….',opts:['stetoskop','cangkul','obat'],ans:'C'},
+          {q:'Dokter biasanya bekerja di ….',opts:['stasiun','sekolah','rumah sakit'],ans:'C'},
+          {q:'Orang yang pekerjaannya menanam padi adalah ….',opts:['polisi','nelayan','petani'],ans:'C'},
+          {q:'Di seberang rumah Adit terdapat ….',opts:['sekolah','rumah Budi','hotel'],ans:'C'},
+          {q:'Bangunan yang berada di sebelah kiri/Barat rumah Budi adalah ….',opts:['rumah Adit','toko buah','sekolah'],ans:'A'},
+          {q:'Sekolah berada di jalan ….',opts:['Kakatua','Beo','Kasuari'],ans:'B'},
+        ],
+        isian: [
+          {q:'Untuk dapat memenuhi keinginan kita sebaiknya kita harus rajin ….',ans:'Menabung'},
+          {q:'Arti kata "menyimpan uang" sama artinya dengan ….',ans:'Menabung'},
+          {q:'Adik ingin membeli susu. Tempat membeli susu adalah ….',ans:'Supermarket/warung'},
+          {q:'Nama benda yang digunakan untuk menyimpan uang adalah ….',ans:'Celengan'},
+          {q:'Rumah sakit berada di sebelah ….',ans:'Balaikota'},
+          {q:'SPBU berada di jalan ….',ans:'Toko dan kafe'},
+          {q:'Bola berada di … kotak.',ans:'Dalam'},
+          {q:'Lampu berada di … meja.',ans:'Atas'},
+          {q:'Petani bekerja di ….',ans:'Sawah'},
+          {q:'Seragam ini dipakai oleh seorang ….',ans:'Pemadam Kebakaran'},
+        ]
+      }
+    ]
+  },
+  mtk: {
+    name: 'Matematika',
+    icon: '🔢',
+    exams: [
+      {
+        key:'mtk1', title:'Sumatif Ke-1', materi:'Bab 1, 2, 3',
+        totalQ: 30,
+        pg: [
+          {q:'Lambang bilangan dari enam puluh tujuh adalah ….',opts:['607','76','67'],ans:'C'},
+          {q:'45 dibaca ….',opts:['empat lima','empat dan lima','empat puluh lima'],ans:'C'},
+          {q:'Banyaknya terong pada gambar di atas adalah ….',opts:['33','30','32'],ans:'B'},
+          {q:'Jumlah yang paling banyak terdapat pada angka ….',opts:['1','2','3'],ans:'A'},
+          {q:'Enam puluhan dan lima satuan ditulis menjadi ….',opts:['60','61','65'],ans:'C'},
+          {q:'Sebelum angka 87 adalah ….',opts:['88','89','86'],ans:'A'},
+          {q:'Bilangan 90 … dari bilangan 78.',opts:['lebih besar','lebih kecil','sama besar'],ans:'A'},
+          {q:'83, 80, 88, 85 Urutan bilangan dari yang terbesar adalah ….',opts:['85,88,83,80','80,83,85,88','88,85,83,80'],ans:'C'},
+          {q:'Angka 7 (di tempat satuan dari 47) menempati tempat ….',opts:['puluhan','satuan','ratusan'],ans:'B'},
+          {q:'Nilai bilangan 43 terdiri dari ….',opts:['40 puluhan + 3 satuan','4 puluhan + 3 satuan','3 puluhan + 4 satuan'],ans:'B'},
+          {q:'56 ditambah 32 hasilnya adalah ….',opts:['78','88','98'],ans:'B'},
+          {q:'25 + 70 = ….',opts:['90','95','85'],ans:'B'},
+          {q:'Di rak buku ada 24 buku. Lalu ditambah 15 buku lagi. Sekarang jumlah bukunya menjadi ….',opts:['39','19','40'],ans:'A'},
+          {q:'Penjumlahan 13 + 7 = ….',opts:['20','19','18'],ans:'A'},
+          {q:'Hasil dari 44 + 32 adalah ….',opts:['65','76','16'],ans:'B'},
+          {q:'35 pensil dikurangi 12 pensil menjadi … pensil.',opts:['32','23','20'],ans:'B'},
+          {q:'Pengurangan 60 - 7 = ….',opts:['53','50','57'],ans:'A'},
+          {q:'79 – 67 = ….',opts:['17','72','12'],ans:'B'},
+          {q:'Hasil pengurangan 27 - 14 = ….',opts:['12','13','14'],ans:'A'},
+          {q:'Bentuk pengurangan yang hasilnya 15 adalah ….',opts:['27-12','40-20','27-15'],ans:'A'},
+        ],
+        isian: [
+          {q:'Setelah angka 79 adalah angka ….',ans:'80'},
+          {q:'Nilai angka 65 = … puluhan + … satuan.',ans:'6 puluhan + 1 satuan'},
+          {q:'Bilangan yang hilang dari pola: 74, 76, ___, 80, ___, 84 adalah ….',ans:'78 dan 82'},
+          {q:'Angka 4 (di puluhan dari 45) menempati nilai tempat ….',ans:'Puluhan'},
+          {q:'Ali punya 54 permen, Heri punya 30 permen. Jika digabung jumlah seluruh permennya ….',ans:'84'},
+          {q:'17 ditambah 30 hasilnya adalah ….',ans:'47'},
+          {q:'41 + 55 = ….',ans:'96'},
+          {q:'Hasil dari pengurangan 75 - 14 = ….',ans:'61'},
+          {q:'Hasil pengurangan 68 - 4 = ….',ans:'64'},
+          {q:'Di dalam aquarium ada 75 ikan. Setelah sepekan ikan mati sebanyak 25 ekor. Jumlah ikan sekarang ada … ekor.',ans:'50 ekor'},
+        ]
+      },
+      {
+        key:'mtk2', title:'Sumatif Ke-2', materi:'Bab 4 & 5',
+        totalQ: 25,
+        pg: [
+          {q:'Benda yang paling tinggi di antara mobil, truk, dan bis sekolah adalah ….',opts:['mobil','truk','bis sekolah'],ans:'C'},
+          {q:'Benda yang ringan di dalam kelas adalah ….',opts:['lemari','buku','papan tulis'],ans:'B'},
+          {q:'Pohon kelapa ... dari pohon apel.',opts:['lebih pendek','lebih rendah','lebih tinggi'],ans:'C'},
+          {q:'Panjang satu amplop jika diukur sebanyak ... pensil.',opts:['4','5','6'],ans:'B'},
+          {q:'Panjang 1 kuas = … panjang streples.',opts:['6','5','7'],ans:'C'},
+          {q:'Urutan benda yang paling ringan (anggur, jeruk, semangka) adalah ….',opts:['jeruk, semangka, anggur','jeruk, anggur, semangka','semangka, jeruk, anggur'],ans:'B'},
+          {q:'Buah semangka beratnya sama dengan buah apel sebanyak … buah.',opts:['sembilan','tujuh','delapan'],ans:'A'},
+          {q:'Buah yang lebih berat adalah ….',opts:['wortel','apel','pir'],ans:'B'},
+          {q:'Pada gambar, rumah yang lebih dekat dengan kantor polisi adalah rumah ….',opts:['Rani','Bagas','Agus'],ans:'C'},
+          {q:'Sebelum hari Jum\'at adalah hari ….',opts:['Sabtu','Kamis','Rabu'],ans:'B'},
+          {q:'Kegiatan yang dilakukan siang hari adalah ….',opts:['tidur','belajar di sekolah','makan sahur'],ans:'C'},
+          {q:'Buah yang paling banyak disukai (tabel: jeruk paling banyak) adalah ….',opts:['semangka','apel','jeruk'],ans:'C'},
+          {q:'Buah yang paling sedikit peminatnya adalah ….',opts:['kiwi','semangka','apel'],ans:'A'},
+          {q:'Jumlah siswa yang suka buah apel dan jeruk adalah ….',opts:['10','9','8'],ans:'B'},
+          {q:'Tabel yang sesuai dengan data (Mangga 3, Apel 5, Jeruk 2) adalah ….',opts:['Mangga 3, Apel 5, Jeruk 2','Mangga 3, Apel 4, Jeruk 3','Mangga 4, Apel 4, Jeruk 2'],ans:'A'},
+        ],
+        isian: [
+          {q:'Lemari dan meja itu berat sedangkan buku dan pulpen itu ….',ans:'Ringan'},
+          {q:'Dalam 1 minggu ada … hari.',ans:'7'},
+          {q:'Dua hari setelah hari Selasa adalah hari ….',ans:'Kamis'},
+          {q:'Berat 1 buah nanas = … buah jeruk.',ans:'2'},
+          {q:'Anak pada gambar makan pada waktu … hari.',ans:'Siang'},
+          {q:'Ammar punya 5 buku, Izzam punya 10 buku. Buku Izzam lebih … dari buku Ammar.',ans:'Banyak'},
+          {q:'Hewan yang paling banyak dipelihara adalah ….',ans:'Kucing'},
+          {q:'Banyaknya siswa yang memelihara ikan berjumlah … siswa.',ans:'4'},
+          {q:'Hewan yang paling sedikit dipelihara adalah ….',ans:'Ikan'},
+          {q:'Jenis hewan yang dipelihara siswa kelas 1 ada … jenis.',ans:'4'},
+        ]
+      }
+    ]
+  },
+  pai: {
+    name: 'PAI',
+    icon: '🕋',
+    exams: [
+      {
+        key:'pai1', title:'Sumatif Ke-1', materi:'Bab 1 dan 2',
+        totalQ: 30,
+        pg: [
+          {q:'Allah Maha Melihat kita di ….',opts:['setiap tempat','kelas saja','rumah saja'],ans:'A'},
+          {q:'Contoh sikap yang disukai Allah adalah ….',opts:['jujur','berbohong','curang'],ans:'A'},
+          {q:'Ketika tidak ada orang di sekitar kita, Allah tetap ….',opts:['ada dan melihat','pergi','tidak tau'],ans:'A'},
+          {q:'Anak yang ingat Allah Maha Melihat akan selalu berbuat ….',opts:['malas','nakal','baik'],ans:'C'},
+          {q:'Aku tidak mau berbohong karena Allah selalu ….',opts:['menyayangiku','melihatku','memberi'],ans:'B'},
+          {q:'Allah berfirman "Dan Dia-lah yang Maha Mendengar dan …". (QS. Asy-Syura)',opts:['Maha Melihat','Maha Memberi','Maha Pengampun'],ans:'A'},
+          {q:'Saat berbuat salah, sebaiknya kita ….',opts:['tertawa','mengulangi','menyesal dan memperbaiki'],ans:'C'},
+          {q:'Aku tidak mau berbuat dosa karena … selalu melihatku.',opts:['Allah','orang tua','guru'],ans:'A'},
+          {q:'Allah selalu mengetahui apa yang kita lakukan karena Allah ….',opts:['Maha Mendengar','Maha Melihat','Maha Pemberi'],ans:'B'},
+          {q:'Orang yang beribadah dengan baik karena merasa dilihat oleh Allah adalah orang yang ….',opts:['muslim','sehat','ihsan'],ans:'C'},
+          {q:'Mengangkat tangan saat memulai shalat disebut ….',opts:['sujud','takbiratul ihram','ruku\''],ans:'B'},
+          {q:'Bangun dari ruku\' disebut ….',opts:['sujud','duduk','i\'tidal'],ans:'C'},
+          {q:'Gerakan terakhir dalam shalat adalah ….',opts:['salam','ruku\'','sujud'],ans:'A'},
+          {q:'Saat salam kepala menoleh ke arah ….',opts:['atas','depan','kanan dan kiri'],ans:'C'},
+          {q:'Saat shalat kita berdiri menghadap ….',opts:['kanan','kiblat','kiri'],ans:'B'},
+          {q:'Setiap rakaat kita sujud … kali.',opts:['1','2','3'],ans:'B'},
+          {q:'Setiap ganti gerakan shalat aku selalu mengucapkan ….',opts:['Allahu Akbar','subhanallah','alhamdulillah'],ans:'A'},
+          {q:'Saat shalat pandanganku ke arah ….',opts:['depan','kaki','tempat sujud'],ans:'C'},
+          {q:"Urutan setelah i'tidal adalah ….",opts:['duduk','ruku\'','sujud'],ans:'C'},
+          {q:"Ruku' dilakukan sebanyak … kali dalam satu rakaat.",opts:['3','2','1'],ans:'C'},
+        ],
+        isian: [
+          {q:'Arti dari nama Allah Al-Bashir adalah ….',ans:'Allah Maha Melihat'},
+          {q:'Cara Allah melihat … dengan cara manusia melihat.',ans:'Tidak sama'},
+          {q:'Allah Maha Melihat artinya dapat … semua perbuatan kita.',ans:'Melihat'},
+          {q:'Penglihatan Allah sangat ….',ans:'Sempurna'},
+          {q:'Jika kita jujur, Allah akan … kita.',ans:'Senang atau sayang'},
+          {q:'Saat sujud, 7 anggota sujud harus menempel di ….',ans:'Lantai'},
+          {q:"Saat ruku', aku meletakan tanganku di atas ….",ans:'Lutut'},
+          {q:'Shalat harus sesuai dengan ….',ans:'Rasulullah'},
+          {q:'Gerakan pada gambar disebut dengan gerakan ….',ans:"Ruku'"},
+          {q:'Gerakan duduk tersebut disebut dengan duduk ….',ans:'Tawaruk'},
+        ]
+      },
+      {
+        key:'pai2', title:'Sumatif Ke-2', materi:'Bab 3 dan 4',
+        totalQ: 30,
+        pg: [
+          {q:'Aku hanya beribadah kepada ….',opts:['nabi','malaikat','Allah'],ans:'C'},
+          {q:'Aku membaca Al-Quran supaya ….',opts:['dapat hadiah dari ummi','disayang Allah','mendapat nilai yang bagus'],ans:'B'},
+          {q:'Perintah terbesar Allah kepada kita adalah ....',opts:['mentauhidkan Allah','berakhlak','bersedekah'],ans:'A'},
+          {q:'Menyembah selain Allah adalah perbuatan ….',opts:['boleh','sunnah','syirik besar'],ans:'C'},
+          {q:'Rabb artinya Tuhan yang ….',opts:['melahirkan-ku','menciptakan-ku','tidur'],ans:'B'},
+          {q:'Menyembah malaikat hukumnya adalah ….',opts:['baik','syirik besar','boleh'],ans:'B'},
+          {q:'Saat aku sakit yang bisa menyembuhkanku hanya ….',opts:['Allah','ummi','dokter'],ans:'A'},
+          {q:'Anak yang beribadah dengan benar kepada Allah akan berbuat ….',opts:['jahat','buruk','baik'],ans:'C'},
+          {q:'Aku menyembelih hewan hanya karena ….',opts:['malaikat','Allah','batu'],ans:'B'},
+          {q:'Sujud kepada manusia adalah perbuatan ….',opts:['boleh','wajib','syirik besar'],ans:'C'},
+          {q:"Saat ruku' kita membaca ….",opts:["subhaana rabbiyal 'adzim","subhaana rabbiyal a'la","Allahu Akbar"],ans:'A'},
+          {q:'Setelah takbiratul ihram kita membaca ….',opts:['istiftah','ruku\'','al Fatihah'],ans:'A'},
+          {q:"I'tidal adalah kita bangun dari ruku' dan mengucapkan ….",opts:['al Fatihah',"sami'allahu liman hamidah","subhana rabbiyal a'la"],ans:'B'},
+          {q:"Subhaana rabbiyal 'adzim adalah bacaan ....",opts:['sujud','i\'tidal','rukuk'],ans:'C'},
+          {q:'Kita wajib melakukan shalat dengan gerakan dan bacaan yang benar sesuai tuntunan ….',opts:['orang tua','ustadz','Rasulullah ﷺ'],ans:'C'},
+          {q:'Gambar di atas menunjukan gerakan duduk ….',opts:['iftirosy','tawaruk','di antara dua sujud'],ans:'A'},
+          {q:'Rabbigfirli Rabbigfirli adalah bacaan ….',opts:['duduk di antara dua sujud','duduk iftirasy','duduk tawaruk'],ans:'A'},
+          {q:'Ketika takbiratul ihram kita membaca ….',opts:['Al Fatihah','Allahu Akbar','istigfar'],ans:'B'},
+          {q:'Ketika takbiratul ihram, kedua tangan sejajar dengan ….',opts:['kepala','leher','bahu atau telinga'],ans:'B'},
+          {q:'Saat tasyahud pandangan kita ke ….',opts:['jari telunjuk','depan','tempat sujud'],ans:'C'},
+        ],
+        isian: [
+          {q:'Setiap hari aku ruku\' dan sujud kepada ….',ans:'Allah'},
+          {q:'Hanya Allah saja satu-satunya yang berhak kita ….',ans:'Ibadahi'},
+          {q:'Kita berdoa hanya kepada ….',ans:'Allah'},
+          {q:'Menyembah kuburan itu perbuatan ….',ans:'Syirik/Dosa besar'},
+          {q:'Yang memberi kita rizki adalah ….',ans:'Allah'},
+          {q:"Subhaana rabbiyal a'la adalah bacaan ketika ….",ans:'Sujud'},
+          {q:'Setelah membaca doa istiftah kita membaca ….',ans:'Membaca surat al Fatihah'},
+          {q:"Di raka'at terakhir sebelum salam kita duduk ….",ans:'Tawaruk'},
+          {q:"Ketika ruku', kedua tangan diletakkan di atas lutut, dan membaca doa ruku' sebanyak … kali.",ans:'3 kali'},
+          {q:'Setelah membaca tasyahud kita membaca ….',ans:'Shalawat nabi'},
+        ]
+      },
+      {
+        key:'pai3', title:'Sumatif Ke-3', materi:'Bab 5 dan 6',
+        totalQ: 30,
+        pg: [
+          {q:'Makhluk Allah yang amat besar, kokoh sebagai pasak agar bumi tidak berguncang adalah ….',opts:['gunung','langit','laut'],ans:'A'},
+          {q:'Contoh makhluk yang ghaib adalah ….',opts:['pohon','malaikat','matahari'],ans:'B'},
+          {q:'Makhluk Allah yang sangat besar, tinggi dan tegak tanpa tiang yaitu ….',opts:['bumi','gunung','langit'],ans:'C'},
+          {q:'Semua yang Allah ciptakan disebut ….',opts:['khaliq','benda','makhluk'],ans:'C'},
+          {q:'Ilmu yang wajib kita pelajari adalah ilmu tentang mengenal ….',opts:['Allah','manusia','malaikat'],ans:'A'},
+          {q:'Allah memperlihatkan semua tanda-tanda kekuasaan-Nya agar kita ….',opts:['berbuat syirik','durhaka kepada Allah','bersyukur dan beribadah kepada Allah'],ans:'C'},
+          {q:'Kita bisa melihat kebesaran Allah dari ….',opts:['televisi','buku','ciptaan-Nya'],ans:'C'},
+          {q:'Tumbuhan tumbuh subur karena ….',opts:['aku siram','izin Allah','aku beri pupuk'],ans:'B'},
+          {q:'Arti dari Al Khalq adalah ….',opts:['Maha Pencipta','Maha Melihat','Maha Pemberi'],ans:'A'},
+          {q:'Kita dapat mengenal Allah melalui ….',opts:['ayat Al Quran saja','makhuk-makhluk-Nya saja','ayat-ayat-Nya dan makhluk-makhluk-Nya'],ans:'C'},
+          {q:'Jika setelah wudhu aku makan daging ayam, bebek dan kambing maka wudhuku ….',opts:['batal','tidak batal','tidak sah'],ans:'B'},
+          {q:'BAK dan BAB merupakan pembatal-pembatal ….',opts:['wudhu','puasa','keislaman'],ans:'A'},
+          {q:'Keadaan seseorang yang belum berwudhu disebut ….',opts:['tayamum','hadats','najis'],ans:'B'},
+          {q:'Shalat tanpa berwudhu maka shalat kita ….',opts:['sah','tidak batal','tidak sah'],ans:'C'},
+          {q:'Setelah berwudhu aku tidur pulas dan pingsan maka wudhuku ….',opts:['tidak batal','sah','batal'],ans:'C'},
+          {q:'Pembatal wudhu juga merupakan pembatal ….',opts:['shalat','puasa','haji'],ans:'A'},
+          {q:'Salah satu contoh pembatal wudhu adalah ….',opts:['tidur-tiduran','tidur','minum air'],ans:'B'},
+          {q:'Setelah wudhu aku pingsan, maka wudhuku ….',opts:['tidak batal','batal','sah'],ans:'B'},
+          {q:'Ketika aku sedang shalat aku kentut maka shalatku ….',opts:['tidak batal','sah','batal'],ans:'C'},
+          {q:'Shalat seseorang yang berhadats tidak akan diterima sampai ia ….',opts:['berwudhu','tidur','bertaubat'],ans:'A'},
+        ],
+        isian: [
+          {q:'Gunung, manusia, hewan adalah ciptaan ….',ans:'Allah'},
+          {q:'Kita mengenal Allah melalui Ayat-ayat-Nya, arti dari ayat-ayat Allah adalah tanda … Allah.',ans:'Kekuasaan'},
+          {q:'Dengan mengenal Allah kita akan menjadi hamba yang ….',ans:'Shalih'},
+          {q:'Dengan memikirkan makhluk-makhluk Allah kita akan mengenal pencipta-Nya yaitu ….',ans:'Allah'},
+          {q:'Kita mengenal Allah melalui … cara.',ans:'2'},
+          {q:'Jika wudhuku batal maka aku harus … lagi.',ans:'Wudhu'},
+          {q:'Ketika aku sedang shalat aku kentut dan tidur lelap maka shalatku ….',ans:'Batal'},
+          {q:'Wudhuku batal jika aku makan daging ….',ans:'Daging unta'},
+          {q:'Aku makan roti dan minum susu setelah wudhu maka wudhuku ….',ans:'Sah/tidak batal'},
+          {q:'Wudhuku bisa batal karena ….',ans:'Tidur, BAB, BAK, pingsan dan makan daging unta'},
+        ]
+      },
+      {
+        key:'pai4', title:'Sumatif Ke-4', materi:'Bab 7, 8, 9',
+        totalQ: 30,
+        pg: [
+          {q:"As Sami' artinya ….",opts:['Maha Melihat','Maha Mendengar','Maha Mengetahui'],ans:'B'},
+          {q:'Pendengaran Allah sangat ….',opts:['sempurna','tidak sempurna','terbatas'],ans:'A'},
+          {q:'Karena Allah Maha Mendengar, maka kita harus berkata ....',opts:['bohong','kasar','baik'],ans:'C'},
+          {q:'Pendengaran Allah … dengan pendengaran makhluk ciptaan Allah.',opts:['sama','mirip','tidak sama'],ans:'C'},
+          {q:'Setiap ucapan baik maupun buruk pasti Allah Maha Mengetahui karena Allah Maha ….',opts:['Mendengar','Pengampun','Penyayang'],ans:'A'},
+          {q:'Saat kita berbisik saat berdoa Allah akan ….',opts:['tidak tau','mendengar','tidak mendengar'],ans:'B'},
+          {q:'Aku semakin rajin berdoa karena Allah ….',opts:['mendengar doaku','melihat suaraku','tidak mendengarnya'],ans:'A'},
+          {q:'Shalat wajib yang dikerjakan umat Islam disebut dengan ….',opts:['shalat fardhu','shalat sunnah','shalat tarawih'],ans:'A'},
+          {q:'Jumlah waktu shalat fardhu dalam sehari ada ….',opts:['4','7','5'],ans:'C'},
+          {q:'Jika meninggalkan shalat fardhu maka kita akan ….',opts:['berpahala','berdosa','disayangi'],ans:'B'},
+          {q:"Shalat yang memiliki rakaatnya ada 4 adalah shalat ….",opts:['dzuhur, asar dan isya','subuh, dhuhur dan asar','asar, magrib dan isya'],ans:'A'},
+          {q:'Orang yang tidak shalat akan masuk ke dalam neraka ….',opts:['jahannam','saqar','hawiyah'],ans:'B'},
+          {q:'Dalam rukun Islam shalat fardhu disebutkan pada urutan ….',opts:['2','3','4'],ans:'A'},
+          {q:'Shalat magrib memiliki ... rakaat.',opts:['2','4','3'],ans:'C'},
+          {q:'Manusia memiliki pengetahuan yang ….',opts:['tidak terbatas','terbatas','sempurna'],ans:'B'},
+          {q:'Allah memiliki nama-nama yang maha indah dan sifat-sifat yang maha ….',opts:['sempurna','terbatas','kekurangan'],ans:'A'},
+          {q:'Allah Maha … atas segala sesuatu.',opts:['Mengetahui','Hidup','Berbicara'],ans:'A'},
+          {q:'Semua yang nampak maupun tidak nampak Allah akan ….',opts:['mengampuni','mengetahui','bijaksana'],ans:'B'},
+          {q:'Maha Mengetahui Allah … dengan manusia.',opts:['sama','tidak sempurna','tidak sama'],ans:'C'},
+          {q:'Perbuatan yang benar karena Allah Maha Mengetahui adalah ….',opts:['sopan dan berbuat baik','kasar dan nakal','berbohong'],ans:'A'},
+        ],
+        isian: [
+          {q:'Kita ... menyamakan pendengaran Allah dengan pendengaran manusia.',ans:'Tidak boleh'},
+          {q:'Yang mendengarkan dan mengabulkan doa kita hanyalah ….',ans:'Allah'},
+          {q:'Allah Maha ... setiap suara atau ucapan yang diucapkan.',ans:'Mendengar'},
+          {q:"Shalat lima waktu dilakukan sebanyak … raka'at.",ans:'17'},
+          {q:'Shalat subuh dikerjakan … terbit matahari.',ans:'Sebelum'},
+          {q:'Shalat magrib memiliki … raka\'at.',ans:'3'},
+          {q:"Al-'Alim artinya adalah ….",ans:'Allah Maha Mengetahui'},
+          {q:'Allah mengetahui semua yang kita lihat dan yang ….',ans:'Tidak kita lihat / ghoib'},
+          {q:'Semua yang kita lakukan Allah pasti ….',ans:'Mengetahui'},
+          {q:'Janganlah berbuat dosa karena Allah pasti ….',ans:'Melihatnya'},
+        ]
+      }
+    ]
+  },
+  ppkn: {
+    name: 'PPKn',
+    icon: '🇮🇩',
+    exams: [
+      {
+        key:'ppkn1', title:'Sumatif Ke-1', materi:'Bab 1 – Lingkungan Sekitar',
+        totalQ: 20,
+        pg: [
+          {q:'Pagar rumah berfungsi sebagai … rumah.',opts:['letak','pembatas','hiasan'],ans:'B'},
+          {q:'Cara berperilaku yang baik dengan tetangga adalah ….',opts:['diam saja','tidak kenal','saling menyapa'],ans:'C'},
+          {q:'Saat akan bertamu kita harus ….',opts:['mengucap salam','langsung masuk','diam-diam'],ans:'A'},
+          {q:'Lingkungan di sekitar rumah akan tetap bersih jika kita mau ….',opts:['bermain di halaman','menjaga kebersihan','menjaga kerukunan'],ans:'B'},
+          {q:'Arah mata angin digunakan untuk ….',opts:['berlari','petunjuk arah','berkemah'],ans:'B'},
+          {q:'Matahari terbit dari sebelah ….',opts:['timur','barat','utara'],ans:'A'},
+          {q:'Membantu tetangga dilakukan saat mereka mendapat ….',opts:['hadiah','makanan','kesulitan'],ans:'C'},
+          {q:'Manfaat mengetahui arah mata angin adalah agar kita tidak ….',opts:['mengantuk','tersesat','lapar'],ans:'B'},
+          {q:'Huruf "S" menunjukan arah ….',opts:['selatan','utara','barat'],ans:'A'},
+          {q:'Huruf "B" pada mata angin adalah singkatan dari ….',opts:['bawah','barat','belakang'],ans:'B'},
+        ],
+        isian: [
+          {q:'Kita harus saling … dengan tetangga.',ans:'Rukun / baik / damai'},
+          {q:'Menjenguk tetangga yang sakit adalah contoh perilaku yang ….',ans:'Baik'},
+          {q:'Menyapu dan mengepel lantai adalah salah satu kegiatan dalam menjaga … rumah.',ans:'Kebersihan'},
+          {q:'Rumah yang kita tempati harus ….',ans:'Bersih'},
+          {q:'Denah bermanfaat membantu orang lain untuk menemukan suatu ….',ans:'Tempat / alamat / arah'},
+          {q:'Matahari terbenam pada … hari.',ans:'Sore'},
+          {q:'Matahari terbenam dari sebelah ….',ans:'Barat'},
+          {q:'Arah utara berlawanan arah dengan arah ….',ans:'Selatan'},
+          {q:'Huruf "T" menunjukkan arah ….',ans:'Timur'},
+          {q:'Arah selatan berlawanan arah dengan arah ….',ans:'Utara'},
+        ]
+      },
+      {
+        key:'ppkn2', title:'Sumatif Ke-2', materi:'Bab 2 – Ayo Gotong Royong',
+        totalQ: 20,
+        pg: [
+          {q:'Dengan gotong royong dapat menumbuhkan sikap ….',opts:['bersaing dengan teman','persatuan dan kesatuan','mau menang sendiri'],ans:'B'},
+          {q:'Kegiatan gotong royong di lingkungan masyarakat dapat mempererat ….',opts:['perselisihan','permusuhan','persaudaraan'],ans:'C'},
+          {q:'Contoh kegiatan gotong royong di rumah adalah ….',opts:['ayah mencuci motor sendiri','adik menyapu lantai dan kakak mengepel','ibu memasak'],ans:'B'},
+          {q:'Sikap yang harus dihindari saat gotong royong adalah ….',opts:['malas','semangat','rajin'],ans:'A'},
+          {q:'Tetangga Pak Rudi sedang berkemas pindah rumah. Sikap Pak Rudi ….',opts:['tidak peduli','ikut membantu','diam saja'],ans:'B'},
+          {q:'Gotong royong dan hidup rukun perlu ….',opts:['ditinggalkan karena tidak bermanfaat','dibiasakan dalam kehidupan sehari-hari','dihindari karena merugikan'],ans:'B'},
+          {q:'Gotong royong bermanfaat untuk kepentingan ….',opts:['semua orang','teman','diri sendiri'],ans:'C'},
+          {q:'Menolong tetangga yang sedang kesulitan termasuk bentuk gotong royong di lingkungan ….',opts:['rumah','sekolah','masyarakat'],ans:'C'},
+          {q:'Mencari nafkah untuk memenuhi kebutuhan keluarga adalah peran ….',opts:['ibu','ayah','kakek'],ans:'B'},
+          {q:'Saat kerja kelompok, kita harus saling ….',opts:['bekerja sama','bertengkar','menyalahkan'],ans:'A'},
+        ],
+        isian: [
+          {q:'Gotong royong membersihkan kelas merupakan contoh gotong royong di lingkungan ….',ans:'Sekolah'},
+          {q:'Saat ada kerja bakti di kelas sebaiknya setiap siswa saling ….',ans:'Bekerja sama'},
+          {q:'Manfaat gotong royong di rumah adalah agar rumah menjadi ....',ans:'Bersih dan nyaman'},
+          {q:'Zahra ingin mengerjakan tugas sekolah bersama Mira. Zahra dan Mira hendaknya saling ….',ans:'Membantu / bekerja sama'},
+          {q:'Warga desa Sukamakmur sering gotong royong merawat lingkungan, sehingga lingkungan mereka menjadi ….',ans:'Bersih dan rapi'},
+          {q:'Gotong royong berarti bekerja secara ....',ans:'Bersama-sama / bareng'},
+          {q:'Salah satu peran anak di rumah adalah ... dengan rajin.',ans:'Belajar'},
+          {q:'Supaya pekerjaan cepat selesai, kita harus melakukannya secara ....',ans:'Gotong royong / kerja bakti'},
+          {q:'Saat kerja bakti, tugas harus dibagi agar terasa lebih ....',ans:'Ringan / mudah'},
+          {q:'Ketika bermain, kita tidak boleh ....',ans:'Curang / kasar'},
+        ]
+      }
+    ]
+  }
+};
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let curSubjectKey = null;
+let curExam = null;
+
+// ═══════════════════════════════════════════════
+// NAV
+// ═══════════════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function openSubject(key) {
+  curSubjectKey = key;
+  const subj = SUBJECTS[key];
+  document.getElementById('sel-title').textContent = subj.name;
+  const list = document.getElementById('sel-list');
+  list.innerHTML = '';
+  subj.exams.forEach((ex, i) => {
+    const total = ex.pg.length + ex.isian.length;
+    list.innerHTML += `<div class="exam-option-card" onclick="pickExam('${key}',${i})">
+      <div class="exam-num">${i+1}</div>
+      <div class="exam-option-info"><strong>${ex.title}</strong><span>Materi: ${ex.materi} &nbsp;·&nbsp; ${ex.pg.length} PG + ${ex.isian.length} Isian</span></div>
+      <span class="exam-arrow">→</span>
+    </div>`;
+  });
+  showScreen('s-select');
+}
+
+function pickExam(subjKey, idx) {
+  const name = document.getElementById('student-name').value.trim();
+  if (!name) { document.getElementById('name-err').style.display='block'; document.getElementById('student-name').focus(); return; }
+  document.getElementById('name-err').style.display='none';
+  curExam = SUBJECTS[subjKey].exams[idx];
+  buildExam(name);
+  showScreen('s-exam');
+}
+
+function retryExam() {
+  const name = document.getElementById('student-name').value.trim();
+  buildExam(name);
+  showScreen('s-exam');
+}
+
+// ═══════════════════════════════════════════════
+// BUILD EXAM
+// ═══════════════════════════════════════════════
+function buildExam(name) {
+  const ex = curExam;
+  const subj = SUBJECTS[curSubjectKey];
+
+  // Letterhead
+  document.getElementById('lh-date').textContent = new Date().toLocaleDateString('id-ID',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('lh-mapel').textContent = subj.name;
+  document.getElementById('lh-materi').textContent = ex.materi;
+  document.getElementById('lh-name-input').value = name;
+  const total = ex.pg.length + ex.isian.length;
+  document.getElementById('prog-count').textContent = `0/${total}`;
+  document.getElementById('prog-fill').style.width = '0%';
+
+  let html = `<div class="section-heading">I.&nbsp; Berilah tanda silang ( x ) pada a, b atau c untuk jawaban yang benar di bawah ini!</div>`;
+  const L = ['A','B','C'];
+  ex.pg.forEach((item,i) => {
+    html += `<div class="q-card"><div class="q-text"><span class="q-badge">${i+1}</span>${item.q}</div><div class="opts">`;
+    item.opts.forEach((opt,j) => {
+      html += `<label class="opt-lbl" id="ol-${i}-${j}" onclick="selPG(${i},${j})">
+        <input type="radio" name="pg-${i}" value="${L[j]}">
+        <span class="opt-dot">${L[j]}</span>
+        <span>${opt}</span>
+      </label>`;
+    });
+    html += `</div></div>`;
+  });
+
+  html += `<div class="section-heading">II.&nbsp; Isilah titik-titik di bawah ini dengan jawaban yang tepat!</div><div class="isian-wrap">`;
+  ex.isian.forEach((item,i) => {
+    const qText = item.q.replace('….','<input class="isian-input" id="is-'+i+'" type="text" placeholder="...">');
+    html += `<div class="isian-row"><span class="isian-num">${i+1}.</span><span class="isian-q">${qText}</span></div>`;
+  });
+  html += `</div>`;
+
+  document.getElementById('exam-body').innerHTML = html;
+  document.querySelectorAll('.isian-input').forEach(inp => inp.addEventListener('input', updateProg));
+}
+
+function selPG(qi, oi) {
+  for(let j=0;j<3;j++){const el=document.getElementById(`ol-${qi}-${j}`);if(el)el.classList.remove('selected');}
+  const el = document.getElementById(`ol-${qi}-${oi}`);
+  if(el){el.classList.add('selected');el.querySelector('input[type=radio]').checked=true;}
+  updateProg();
+}
+
+function updateProg() {
+  const ex = curExam;
+  const total = ex.pg.length + ex.isian.length;
+  let answered = 0;
+  ex.pg.forEach((_,i) => { if([...document.querySelectorAll(`input[name=pg-${i}]`)].some(r=>r.checked)) answered++; });
+  ex.isian.forEach((_,i) => { const inp=document.getElementById(`is-${i}`); if(inp&&inp.value.trim()) answered++; });
+  document.getElementById('prog-count').textContent = `${answered}/${total}`;
+  document.getElementById('prog-fill').style.width = `${Math.round(answered/total*100)}%`;
+}
+
+// ═══════════════════════════════════════════════
+// SUBMIT
+// ═══════════════════════════════════════════════
+function submitExam() {
+  const ex = curExam; const subj = SUBJECTS[curSubjectKey];
+  const name = document.getElementById('student-name').value.trim();
+  const L = ['A','B','C'];
+  const total = ex.pg.length + ex.isian.length;
+  let correct = 0, wrong = [];
+
+  ex.pg.forEach((item,i) => {
+    let chosen = null;
+    [...document.querySelectorAll(`input[name=pg-${i}]`)].forEach((r,j)=>{ if(r.checked) chosen=L[j]; });
+    if(chosen===item.ans){ correct++; }
+    else {
+      const ct = chosen ? item.opts[L.indexOf(chosen)] : '(tidak dijawab)';
+      const kj = item.opts[L.indexOf(item.ans)];
+      wrong.push({type:'PG',num:i+1,q:item.q,your:`${chosen||'—'}) ${ct}`,correct:`${item.ans}) ${kj}`});
+    }
+  });
+
+  ex.isian.forEach((item,i) => {
+    const inp = document.getElementById(`is-${i}`);
+    const ua = inp ? inp.value.trim().toLowerCase().replace(/[.,!?]/g,'') : '';
+    const ka = item.ans.toLowerCase().replace(/[.,!?]/g,'');
+    const ok = ua!=='' && (ua===ka || ka.includes(ua) || ua.includes(ka.split('/')[0].trim()));
+    if(ok){ correct++; }
+    else { wrong.push({type:'Isian',num:i+1,q:item.q,your:inp?(inp.value.trim()||'(tidak dijawab)'):'—',correct:item.ans}); }
+  });
+
+  const score = Math.round(correct/total*100);
+  document.getElementById('result-name').textContent = name;
+  document.getElementById('result-sub').textContent = `${subj.name} · ${ex.title} · ${ex.materi}`;
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('r-total').textContent = `📋 Total: ${total} soal`;
+  document.getElementById('r-correct').textContent = `✓ Benar: ${correct}`;
+  document.getElementById('r-wrong').textContent = `✗ Salah: ${total-correct}`;
+
+  const ring = document.getElementById('score-ring');
+  ring.className = 'score-ring pop';
+  if(score>=85) ring.classList.add('ex');
+  else if(score<70) ring.classList.add('ng');
+  document.getElementById('result-emj').textContent = score>=85 ? '🏆' : score>=70 ? '😊' : '💪';
+
+  const rev = document.getElementById('review-area');
+  if(wrong.length===0){
+    rev.innerHTML=`<div class="perfect-msg"><div style="font-size:32px;">🎉</div><div style="font-size:15px;font-weight:900;color:var(--green);margin-top:8px;">Sempurna! Semua jawaban benar!</div></div>`;
+  } else {
+    let rh=`<div class="review-head">⚠️ Perlu diperbaiki (${wrong.length} soal):</div>`;
+    wrong.forEach(w=>{rh+=`<div class="review-card"><div class="rc-q"><strong>${w.type} No.${w.num}:</strong> ${w.q}</div><div class="rc-yours">✗ Jawabanmu: ${w.your}</div><div class="rc-correct">✓ Jawaban benar: ${w.correct}</div></div>`;});
+    rev.innerHTML=rh;
+  }
+  showScreen('s-result');
+}
+</script>
+</body>
+</html>
